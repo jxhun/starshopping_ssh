@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>starShopping后台管理页面</title>
+    <link rel="stylesheet" type="text/css" href="../tags/jquery.tagsinput.css"/>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css"/>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../tags/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="../tags/jquery.tagsinput.js"></script>
+    <script type='text/javascript' src='../tags/jquery-ui.min.js'></script>
+    <script src="../layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../tags/jquery-ui.css"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+</head>
+<body class="layui-layout-body">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+    <div class="modal-dialog" style="width: 700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    聊天窗口
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="liaotian" class="show-chat-content"
+                     style="width: 600px;height: 350px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+            </div>
+            <div class="modal-footer">
+                <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                      class="control"></textarea>
+                    <button id="sendButton" class="layui-btn">发送</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">客服情况列表</a></li>
+            <!--<li class="layui-nav-item" id="kefuguanli">-->
+            <!--<a href="javascript:;"></a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a href="/houtaiyuangong/YuanGong.html">客服情况列表</a></dd>-->
+            <!--<dd><a href="/houtaiyuangong/KeFuCaoZuoRiZhi.html">客服操作日志</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a data-toggle="modal" data-target="#myModal" id="kefu">客户消息<span class="badge"
+                                                                                                         id="lianxi"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    <span id="xingMing"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">待添加</a></dd>
+                    <dd><a href="">待添加</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="../denglu.html">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">订单管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="../houtaidingdan/DingDanGuanLi.html">订单详列</a></dd>
+                        <dd><a href="../houtaidingdan/LieBiaoTongJi.html">订单统计列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="../houtaikehuguanli/yonghuxinxiguanli.html">客户信息列表</a></dd>
+                        <dd><a href="../houtaikehuguanli/KeHuCaoZuoRiZhi.html">客户操作日志</a></dd>
+                    </dl>
+                </li>
+                <!--<li class="layui-nav-item layui-nav-itemed" id="kefuguanli">-->
+                <!--<a href="javascript:;">客服管理</a>-->
+                <!--<dl class="layui-nav-child">-->
+                <!--<dd><a href="/houtaiyuangong/YuanGong.html">客服情况列表</a></dd>-->
+                <!--<dd><a href="/houtaiyuangong/KeFuCaoZuoRiZhi.html">客服操作日志</a></dd>-->
+                <!--</dl>-->
+                <!--</li>-->
+                <li class="layui-nav-item"><a href="/houtaishangpinguanli/select.html">后台商品管理</a></li>
+                <li class="layui-nav-item"><a href="../houtaitongji/xiaoliangtongji.html">销量查询</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <table id="table" style="margin-top: 20px">
+
+        </table>
+        <button id="button">提交</button>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script>
+    $(function () {
+        var oldGuiGe1;
+        var oldGuiGe2;
+
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+        }
+
+        /*用户-查看*/
+        function member_show(title, url, id, w, h) {
+            if (title == null || title == '') {
+                title = false;
+            }
+            ;
+            if (url == null || url == '') {
+                url = "404.html";
+            }
+            ;
+            if (w == null || w == '') {
+                w = 800;
+            }
+            ;
+            if (h == null || h == '') {
+                h = ($(window).height() - 50);
+            }
+            ;
+            layer.open({
+                type: 2,
+                area: [w + 'px', h + 'px'],
+                fix: false, //不固定
+                maxmin: true,
+                shade: 0.4,
+                title: title,
+                content: url
+            });
+        }
+
+        var ShangPinBianHao = getURLParameter('ShangPinBianHao');
+        console.log(ShangPinBianHao);
+        $.ajax({
+            url: "/Shangpinxinxi/update",
+            type: "post",
+            cache: false,
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+                "runCode": 0,
+                "sp.shangPinBianHao": ShangPinBianHao
+            },
+            success: function (response) {
+                alert(JSON.stringify(response))
+                var data = JSON.parse(response.data);
+                if (data.returncode === -100) {
+                    $(location).attr("href", "/denglu.html");
+                } else {
+                    $("#xingMing").text(response.username);
+                    if (data.username != '大老板') {
+                        $("#kefuguanli").css("display", "none");
+                    }
+                    var tr = "<tr>" +
+                        "<td><span style='display: inline-block;margin-left: 15px'>商品编号：</span><input id='id' style='width:200px;display: inline-block' class='form-control' type='text' disabled='disabled' value='" + data.id + "'></td>" +
+                        "<td><span style='display: inline-block;margin-left: 15px'>商品名称：</span><input id='ShangPinMingCheng' style='width:200px;display: inline-block' class='form-control' type='text' value='" + data.ShangPinMingChen + "'></td>" +
+                        "<td><span style='display: inline-block;margin-left: 15px'>商品类型：</span><input id='ShangPinLeiXing' style='width:200px;display: inline-block' class='form-control' type='text' disabled='disabled' value='" + data.ShangPinLeiXin + "'></td></tr>" +
+                        "<td><span style='display: inline-block;margin-left: 15px'>商品规格1：</span><input id='ShangPinGuiGe1' style='width:200px;display: inline-block' class='form-control' type='text' disabled='disabled' value='" + data.ShangPinGuiGe1 + "'></td>" +
+                        "<td><span style='display: inline-block;margin-left: 15px'>商品规格2：</span><input id='ShangPinGuiGe2' style='width:200px;display: inline-block' class='form-control' type='text' disabled='disabled' value='" + data.ShangPinGuiGe2 + "'></td></tr>" +
+                        "<tr><td><span style='display: inline-block;margin-left: 15px'>品牌:</span><input type='text' style='width:200px;display: inline-block' class='form-control' id='PinPai' value='" + data.PinPai + "'></td>" +
+                        "<td height='50px'><span style='display: inline-block;margin-left: 15px'>商品价格:</span><input style='width:200px;display: inline-block' class='form-control' type='text' id='ShangPinJiaGe' value='" + data.ShangPinJiaGe + "'></td>" +
+                        "<td><span style='display: inline-block;margin-left: 15px'>商品成本:</span><input style='width:200px;display: inline-block' class='form-control' type='text' id='ShangPinChengBen' value='" + data.ShangPinChengBen + "'></td>" +
+                        "<tr><td  height='50px'>商品状态<select id='ShangPinZhuangTai'><option>已上架</option><option>下架中</option></select></td></tr>";
+                    $("#table").append(tr);
+                }
+            },
+            error: function (response) {
+                alert("错误" + response)
+            }
+        });
+        $("#button").click(function () {
+            var ShangPinZhuangTai = $("#ShangPinZhuangTai").val();
+            var zhuangTai = 0;
+            if (ShangPinZhuangTai == '已上架') {
+                zhuangTai = 1;
+            }
+            $.ajax({
+                url: "/Shangpinxinxi/update",
+                type: "post",
+                cache: false,
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    "runCode": 1,
+                    "sp.id": $("#id").val(),
+                    "sp.shangPinMingChen": $("#ShangPinMingCheng").val(),
+                    "sp.pinPai": $("#PinPai").val(),
+                    "sp.shangPinJiaGe": $("#ShangPinJiaGe").val(),
+                    "sp.shangPinChengBen": $("#ShangPinChengBen").val(),
+                    "sp.shangPinZhuangTai": zhuangTai,
+                },
+                success: function (response) {
+                    location.href = "/houtaishangpinguanli/select.html"
+                },
+                error: function (response) {
+                    alert("错误" + response)
+                }
+            })
+        })
+    });
+
+</script>
+</body>
+</html>

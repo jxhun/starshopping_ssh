@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$Title$</title>
+</head>
+<body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+    $.ajax({
+        url: "/Shangpinxinxi/chaxun",   // 请求路径
+        type: "POST",            // 请求的方式，不区分大小写
+        cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+        datatype: "json",        // 返回类型，text文本、html页面、json数据
+        data: {
+            page: 1,
+            limit: 10
+        },
+        success: function (response) {
+            alert(JSON.stringify(response))
+            alert(response.data)
+            alert(response.data[0])
+            alert(JSON.parse(response.data)[0].shangPinLeiXin)
+        },
+        error: function (response) {
+            alert("出错" + response);
+        }
+    });
+</script>
+</body>
+</html>

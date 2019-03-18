@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <context:component-scan base-package="cn"/>
+    <tx:annotation-driven transaction-manager="defaultTransactionManager" proxy-target-class="true"/>
+    <bean id="defaultTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--&lt;!&ndash; 引入jdbc配置文件 &ndash;&gt;-->
+    <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath:jdbc.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 配置数据源 &ndash;&gt;-->
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">-->
+        <!--<property name="driverClassName" value="${driverClass}"/>-->
+        <!--<property name="url" value="${url}"/>-->
+        <!--<property name="username" value="${username}"/>-->
+        <!--<property name="password" value="${password}"/>-->
+    <!--</bean>-->
+
+    <!-- 将Hibernate中配置数据库放到Spring当中配置 使用阿里连接池管理-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <!-- 连接数据库的信息 -->
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    <property name="url" value="jdbc:mysql://localhost:3306/starshopping"/>
+    <property name="username" value="root"/>
+    <property name="password" value="1234"/>
+    </bean>
+
+    <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="jndiName">-->
+             <!--<value>java:comp/env/jndi/mysql</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--<jee:jndi-lookup id="dataSource" jndi-name="jndi/mysql"/>-->
+    <!-- 配置SessionFactory创建 -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- 指定数据库信息，也就是给它一个dataSource -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 指定hibernate核心配置文件 -->
+        <property name="configLocations" value="classpath:hibernate.cfg.xml"/>
+    </bean>
+
+    <!-- 配置HibernateTemplate -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <!-- 注入sessionFactory -->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+</beans>

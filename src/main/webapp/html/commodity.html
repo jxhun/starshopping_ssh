@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+  <script type="text/javascript" src="../res/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+
+    <style>
+
+        dt, dd {
+            line-height: 2;
+        }
+
+    </style>
+</head>
+<body>
+
+  <div class="site-nav-bg">
+      <div class="site-nav w1200">
+          <p class="sn-back-home">
+              <i class="layui-icon layui-icon-home"></i>
+              <span id="souye">首页</span>
+          </p>
+          <div class="sn-quick-menu">
+              <div id="gerenzhongxin" class="login"><a id="dl" style="margin-left: 10px"  href="/html/denglu.html">登录</a></div>
+              <div class="sp-cart"><a  id="gwc" href="/html/shopcart.html">购物车</a>
+                  <span style="color:#337ab7;margin-left: 10px" data-toggle="modal" data-target="#myModal">联系客服</span></div>
+          </div>
+
+
+      </div>
+  </div>
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+      <div class="modal-dialog" style="width: 700px">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                      &times;
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                      聊天窗口
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  <div id="mydiv" class="show-chat-content"
+                       style="width: 600px;height: 350px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+              </div>
+              <div class="modal-footer">
+                  <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                        class="control"></textarea>
+                      <button id="sendButton">发送</button>
+                  </div>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+  </div>
+
+  <script>
+      $(function () {
+          var yonghuming="";
+          $.ajax({
+              url: "/yonghuming",    // 请求路径
+              type: "post",           // 请求的方式，不区分大小写
+              cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+              datatype: "json",        // 返回类型，text文本、html页面、json数据
+              data: {
+
+              },
+              success: function (response) {
+                  yonghuming=response.yonghuming
+
+                  if(yonghuming==null || yonghuming==""){
+                      $("#souye").click(function () {
+                          window.location.href="/html/index.html";
+
+                      });
+                  }else {
+
+                      $("#dl").html(yonghuming);
+                      var img="<img style='margin-left: 10px;width: 30px; height: 30px;' src='../img/user.png'/>";
+                      $("#dl").before(img)
+                      var gr="<a style='color:#f132a5;margin-left: 10px ' id='grzx'>个人中心</a>";
+                      $("#gerenzhongxin").append(gr)
+                      $("#grzx").click(function () {
+                          window.location.href="/html/gerenziliao.html?yonghuming="+yonghuming;
+
+                      });
+                      var ddgl="<a style='color:#f132a5;margin-left: 10px ' id='ddgl'>订单管理</a>";
+                      $("#grzx").before(ddgl)
+                      $("#ddgl").click(function () {
+                          window.location.href="/html/dingdanguanli.html?yonghuming="+yonghuming;
+                      });
+
+                      $("#souye").click(function () {
+
+                          window.location.href="/html/index.html?yonghuming="+yonghuming;
+
+                      });
+
+
+                  }
+
+              },
+              error: function (response) {
+                  alert("出错" + response);
+              }
+          });
+
+
+
+
+          $("#sendButton").click(function () {
+              var msg = $("#client_msg").val();
+              $("#mydiv").append("<div style='margin-top: 20px;margin-right: 10px;text-align: right'><span style='font-size: 15px;color: red;'>你说:" + msg + "</span><p/>");
+              $.ajax({
+                  url: "/serverServlet",    // 请求路径
+                  type: "post",            // 请求的方式，不区分大小写
+                  cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                  datatype: "json",        // 返回类型，text文本、html页面、json数据
+                  data: {
+                      YongHuMing: 'zhangsan',
+                      msgKey: msg,
+                      action: 2,
+                      yongHuMing:'zhangsan'
+                  },
+                  success: function (response) {
+                      //alert("数据: " + response);
+                  },
+                  error: function (response) {
+                      alert("出错" + response);
+                  }
+              });
+              $("#client_msg").val("");
+              var showContent = $(".show-chat-content");
+              showContent[0].scrollTop = showContent[0].scrollHeight;
+          });
+      });
+
+      function getMsg() {
+          $.ajax({
+              url: "/clientServlet",    // 请求路径
+              type: "post",            // 请求的方式，不区分大小写
+              cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+              datatype: "json",        // 返回类型，text文本、html页面、json数据
+              data: {
+                  action: 1
+              },
+              success: function (response) {
+                  //alert("数据: " + response);
+                  if (response != null && response != "") {   // 如果后台服务没有数据，则不会添加
+                      $("#mydiv").append("<div style='margin-top: 20px;'><span style='font-size: 15px;color: royalblue;'>" + response.yongHuMing + ":" + response.msgKey + "</span></div>");
+                  }
+              },
+              error: function (response) {
+                  console.log("出错" + JSON.stringify(response));
+              }
+          });
+      }
+
+
+      setInterval("getMsg()", 50);    // 轮询
+  </script>
+
+
+  <div class="header">
+      <div class="headerLayout w1200">
+          <div class="headerCon">
+              <h1 class="mallLogo">
+                  <a href="#" title="startsShoping">
+                      <img src="../img/tt.png">
+                  </a>
+              </h1>
+              <!--<div class="mallSearch" >-->
+                  <!--<form action="" class="layui-form" novalidate style="border-color: #ffc6dd">-->
+                      <!--<input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">-->
+                      <!--<button style="background:#ffc6dd" class="layui-btn" lay-submit lay-filter="formDemo">-->
+                          <!--<i class="layui-icon layui-icon-search"></i>-->
+                      <!--</button>-->
+                      <!--<input type="hidden" name="" value="">-->
+                  <!--</form>-->
+              <!--</div>-->
+          </div>
+      </div>
+  </div>
+
+
+
+
+  <div class="content content-nav-base commodity-content">
+    <div class="main-nav">
+      <div class="inner-cont0">
+        <div class="inner-cont1 w1200">
+          <div class="inner-cont2">
+            <a href="commodity.html" class="active" style="color:#ffc6dd ">所有商品</a>
+            <a href="buytoday.html">今日团购</a>
+            <a href="information.html">母婴资讯</a>
+            <a href="about.html">关于我们</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="commod-cont-wrap">
+      <div class="commod-cont w1200 layui-clear">
+        <div class="left-nav">
+          <div class="title">所有分类</div>
+          <div class="list-box">
+            <dl>
+             <dt><a href="/html/commodity.html?code=服饰">服饰</a></dt>
+             <dd><a href="/html/commodity.html?code=女装">女装</a></dd>
+             <dd><a href="/html/commodity.html?code=男装">男装</a></dd>
+            </dl>
+            <dl>
+                <dt><a href="/html/commodity.html?code=鞋">鞋</a></dt>
+             <dd><a href="/html/commodity.html?code=女鞋">女鞋</a></dd>
+             <dd><a href="/html/commodity.html?code=男鞋">男鞋</a></dd>
+
+            </dl>
+            <dl>
+                <dt><a href="/html/commodity.html?code=洗护用品">洗护用品</a></dt>
+             <dd><a href="/html/commodity.html?code=母婴洗护用品">母婴洗护用品</a></dd>
+             <dd><a href="/html/commodity.html?code=个人洗护用品">个人洗护用品</a></dd>
+            </dl>
+            <dl>
+                <dt><a href="/html/commodity.html?code=化妆品">化妆品</a></dt>
+             <dd><a href="/html/commodity.html?code=护肤品">护肤品</a></dd>
+             <dd><a href="/html/commodity.html?code=彩妆">彩妆</a></dd>
+             <dd><a href="/html/commodity.html?code=男生护肤品">男生护肤品</a></dd>
+            </dl>
+            <dl>
+                <dt><a href="/html/commodity.html?code=家电数码">家电数码</a></dt>
+             <dd><a href="/html/commodity.html?code=手机">手机</a></dd>
+             <dd><a href="/html/commodity.html?code=电脑">电脑</a></dd>
+            </dl>
+              <dl>
+                  <dt><a href="/html/commodity.html?code=其他">其他</a></dt>
+                  <dd><a href="/html/commodity.html?code=运动户外">运动户外</a></dd>
+                  <dd><a href="/html/commodity.html?code=玩具">玩具</a></dd>
+                  <dd><a href="/html/commodity.html?code=配饰">配饰</a></dd>
+              </dl>
+          </div>
+        </div>
+        <div class="right-cont-wrap">
+          <div class="right-cont">
+            <div class="sort layui-clear">
+              <a class="active" href="javascript:;" event = 'vo lume'>销量</a>
+              <a href="javascript:;" event = 'price'>价格</a>
+              <a href="javascript:;" event = 'newprod'>新品</a>
+              <a href="javascript:;" event = 'collection'>收藏</a>
+            </div>
+            <div class="prod-number">
+              <span>200个</span>
+            </div>
+            <div class="cont-list layui-clear" id="list-cont">
+
+
+            </div>
+
+           <div id="fenye" style="text-align: center;"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+     $(function () {
+         function getURLParameter(name) {
+             return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+         }
+
+         var currentPage = 1;
+         var code = getURLParameter('code');
+
+        var zongtiaoshu=0;
+
+        function ff(){
+            $.ajax({
+                url: "/fenlei_zheng",    // 请求路径
+                type: "post",           // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    code: code,
+                    currentPage: currentPage,
+                    pageSize:6
+
+                },
+                success: function (response) {
+
+                    zongtiaoshu = response.total;
+                    for (var i = 0; i < response.success.length; i++) {
+                        var ss = "              <div class=\"item\">\n" +
+                            "                <div class=\"img\">\n" +
+                            "                  <a href=\"javascript:;\"><img src=\"../res/static/img/more1.jpg\"></a>\n" +
+                            "                </div>\n" +
+                            "                <div class=\"text\" style='height: 40px'>\n" +
+                            "                  <p style=\"font-weight: bold\" class=\"title\">" + response.success[i].ShangPinMingChen + "</p>\n" +
+                            "                  <p >" + response.success[i].ShangPinMiaoSu + "</p>\n" +
+                            "                  <p class=\"price\">\n" +
+                            "                    <span class=\"pri\">￥" + response.success[i].ShangPinJiaGe + "</span>\n" +
+                            "                    <span style=\"margin-left: 60px\" ><a href='/html/details.html?ShangPinZuBianHao=" + response.success[i].ShangPinZuBianHao + "'>商品详情</a></span>\n" +
+                            "                  </p>\n" +
+                            "                </div>\n" +
+                            "              </div>\n";
+
+                        $("#list-cont").append(ss);
+                    }
+
+
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+
+            });
+
+        }
+
+        ff()
+         layui.config({
+             base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+         }).use(['mm','laypage','jquery'],function(){
+             var laypage = layui.laypage,$ = layui.$,
+                 mm = layui.mm;
+             if(zongtiaoshu<=6){//每页显示6条数据 小于6条则代表只有1页
+                 ss=zongtiaoshu;
+             }else{
+                 ss=((zongtiaoshu-1)/6+1)*6;//计算分为几页
+             }
+                 laypage.render({
+                     elem: 'fenye'
+                     ,count:'70'//数据总数
+                     ,jump:function (obj,first) {
+                         currentPage=obj.curr; //获取当前页码数
+                         console.log(obj.limit);
+                         //首次不执行
+                         if (!first) {
+                             $("#list-cont").empty();//
+                             ff();
+                         }
+                     }
+
+                 });
+
+
+
+
+             $('.sort a').on('click',function(){
+                 $(this).addClass('active').siblings().removeClass('active');
+             })
+             $('.list-box dt').on('click',function(){
+                 if($(this).attr('off')){
+                     $(this).removeClass('active').siblings('dd').show()
+                     $(this).attr('off','')
+                 }else{
+                     $(this).addClass('active').siblings('dd').hide()
+                     $(this).attr('off',true)
+                 }
+             });
+         });
+
+     });
+
+
+  </script>
+
+
+</body>
+</html>

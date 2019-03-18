@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+  <script type="text/javascript" src="../res/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+  <div class="site-nav-bg">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a href="#">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div class="login"><a href="login.html">登录</a></div>
+        <div class="sp-cart"><a href="shopcart.html">购物车</a><span>2</span></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="header">
+    <div class="headerLayout w1200">
+      <div class="headerCon">
+        <h1 class="mallLogo">
+          <a href="#" title="母婴商城">
+            <img src="../res/static/img/logo.png">
+          </a>
+        </h1>
+        <div class="mallSearch">
+          <form action="" class="layui-form" novalidate>
+            <input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+            <input type="hidden" name="" value="">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <table class="layui-hide" id="demo" lay-filter="test"></table>
+
+  <script type="text/html" id="barDemo">
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  </script>
+
+
+
+
+  <!--<script src="//res.layui.com/layui/dist/layui.js?t=1545041465480"></script>-->
+  <script>
+      layui.config({
+          version: '1545041465480' //为了更新 js 缓存，可忽略
+      });
+
+      layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'], function(){
+          var laydate = layui.laydate //日期
+              ,laypage = layui.laypage //分页
+              ,layer = layui.layer //弹层
+              ,table = layui.table //表格
+              ,carousel = layui.carousel //轮播
+              ,upload = layui.upload //上传
+              ,element = layui.element //元素操作
+              ,slider = layui.slider //滑块
+
+
+          //监听Tab切换
+          element.on('tab(demo)', function(data){
+              layer.tips('切换了 '+ data.index +'：'+ this.innerHTML, this, {
+                  tips: 1
+              });
+          });
+
+          //执行一个 table 实例
+          function ff(){
+              table.render({
+                  elem: '#demo'
+                  ,height: 420
+                  ,url: '/bianjidizhi' //数据接口
+                  ,title: '用户表'
+                  ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+                  ,totalRow: false //开启合计行
+                  ,cols: [[ //表头
+                      {type: 'checkbox', fixed: 'left',field:'id'}
+                      ,{field: 'ShouHuoRen', title: '收货人', width:"20%", fixed: 'left', totalRowText: '：',edit:true}
+                      ,{field: 'SuoZaiDiQu', title: '所在地区', width:"30%",edit:true}
+                      ,{field: 'XiangXiDiZhi', title: '详细地址', width: "30%",edit:true}
+                      ,{field: 'LianXiDianHua', title: '联系电话', width:"20%",edit:true}
+                  ]]
+                  ,response: {
+                      "code": 0, //解析接口状态
+                      "msg": "", //解析提示文本
+                      "count": 10000, //解析数据长度
+                      "dataName":"dizhi" //解析数据列表
+
+                  }
+                  // ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+                  //     alert(res.dizhi[1].YouBian)
+                  //     return {
+                  //         "code": res.code, //解析接口状态
+                  //         "msg": res.message, //解析提示文本
+                  //         "count": res.total, //解析数据长度
+                  //         "dataName": res.dizhi[1] //解析数据列表
+                  //     };
+                  // }
+              });
+
+          }
+          ff()
+
+          //监听头工具栏事件
+          table.on('toolbar(test)', function(obj){
+              var checkStatus = table.checkStatus(obj.config.id)
+                  ,data = checkStatus.data; //获取选中的数据
+              switch(obj.event){
+                  case 'add':
+                      layer.msg('添加');
+                      break;
+                  case 'update':
+                      if(data.length === 0){
+                          layer.msg('请选择一行');
+                      } else if(data.length > 1){
+                          layer.msg('只能同时编辑一个');
+                      } else {
+                          layui.use('jquery',function() {
+                              var $ = layui.$;
+
+                              $.ajax({
+                                  type: 'post',
+                                  url: "/xiugaidizhi", // ajax请求路径
+                                  data: {
+                                      id:data[0].id,
+                                      ShouHuoRen:data[0].ShouHuoRen,
+                                      SuoZaiDiQu:data[0].SuoZaiDiQu,
+                                      XiangXiDiZhi:data[0].XiangXiDiZhi,
+                                      LianXiDianHua:data[0].LianXiDianHua
+                                  },
+                                  success: function (data) {
+                                      if (data===200){
+                                          ff();
+                                      }
+                                  }
+                              });
+                          });
+
+                          layer.alert('编辑 [id]：'+ checkStatus.data[0].id);
+                      }
+                      break;
+                  case 'delete':
+                      if(data.length === 0){
+                          layer.msg('请选择一行');
+                      } else {
+                          layui.use('jquery',function() {
+                              var $ = layui.$;
+                              var arr = new Array(data.length);
+                              for(var i=0;i<data.length;i++){
+                                  arr[i]=data[i].id;
+                              }
+                              $.ajax({
+                                  type: 'post',
+                                  url: "/shanchudizhi", // ajax请求路径
+                                  data: {
+                                      id:arr
+                                  },
+                                  success: function (data) {
+                                      alert("data"+data)
+                                      if (data===200){
+                                         // location.href="/html/about.html";
+                                          ff();
+                                          layer.msg('删除成功');
+
+                                      }
+                                  }
+                              });
+                          });
+
+                      break;
+              };
+          }
+
+      });
+
+          //监听行工具事件
+          table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+              var data = obj.data //获得当前行数据
+                  ,layEvent = obj.event; //获得 lay-event 对应的值
+              if(layEvent === 'detail'){
+                  layer.msg('查看操作');
+              } else if(layEvent === 'del'){
+                  layer.confirm('真的删除行么', function(index){
+                      obj.del(); //删除对应行（tr）的DOM结构
+                      layer.close(index);
+                      //向服务端发送删除指令
+                  });
+              } else if(layEvent === 'edit'){
+                  layer.confirm('编辑', function(index){
+                      obj.edit(); //编辑对应行（tr）的DOM结构
+                      layer.close(index);
+
+                  });
+              }
+          });
+
+          //执行一个轮播实例
+          carousel.render({
+              elem: '#test1'
+              ,width: '100%' //设置容器宽度
+              ,height: 200
+              ,arrow: 'none' //不显示箭头
+              ,anim: 'fade' //切换动画方式
+          });
+
+
+          //上传
+          upload.render({
+              elem: '#uploadDemo'
+              ,url: '' //上传接口
+              ,done: function(res){
+                  console.log(res)
+              }
+          });
+
+          slider.render({
+              elem: '#sliderDemo'
+              ,input: true //输入框
+          });
+
+          //底部信息
+          var footerTpl = lay('#footer')[0].innerHTML;
+          lay('#footer').html(layui.laytpl(footerTpl).render({}))
+              .removeClass('layui-hide');
+      });
+  </script>
+</body>
+
+
+  <!--<body>-->
+  <!--<div style="margin-bottom: 5px;">-->
+
+    <!--&lt;!&ndash; 示例-970 &ndash;&gt;-->
+    <!--<ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>-->
+
+  <!--</div>-->
+
+  <!--<div class="layui-btn-group demoTable">-->
+    <!--<button class="layui-btn" data-type="getCheckData">获取选中行数据</button>-->
+    <!--<button class="layui-btn" data-type="getCheckLength">获取选中数目</button>-->
+    <!--<button class="layui-btn" data-type="isAll">验证是否全选</button>-->
+  <!--</div>-->
+
+  <!--<table class="layui-table" lay-data="{width: 892, height:332, url:'/demo/table/user/', page:true, id:'idTest'}" lay-filter="demo">-->
+    <!--<thead>-->
+    <!--<tr>-->
+      <!--<th lay-data="{type:'checkbox', fixed: 'left'}"></th>-->
+      <!--<th lay-data="{field:'id', width:80, sort: true, fixed: true}">收货人</th>-->
+      <!--<th lay-data="{field:'username', width:100}">所在地区</th>-->
+      <!--<th lay-data="{field:'sex', width:130, sort: true}">详细地址</th>-->
+      <!--<th lay-data="{field:'city', width:80}">联系电话</th>-->
+
+    <!--</tr>-->
+    <!--</thead>-->
+  <!--</table>-->
+
+  <!--<script type="text/html" id="barDemo">-->
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+  <!--</script>-->
+
+
+  <!--<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>-->
+  <!--&lt;!&ndash; 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 &ndash;&gt;-->
+  <!--<script>-->
+      <!--layui.use('table', function(){-->
+          <!--var table = layui.table;-->
+          <!--//监听表格复选框选择-->
+          <!--table.on('checkbox(demo)', function(obj){-->
+              <!--console.log(obj)-->
+          <!--});-->
+          <!--//监听工具条-->
+          <!--table.on('tool(demo)', function(obj){-->
+              <!--var data = obj.data;-->
+              <!--if(obj.event === 'detail'){-->
+                  <!--layer.msg('ID：'+ data.id + ' 的查看操作');-->
+              <!--} else if(obj.event === 'del'){-->
+                  <!--layer.confirm('真的删除行么', function(index){-->
+                      <!--obj.del();-->
+                      <!--layer.close(index);-->
+                  <!--});-->
+              <!--} else if(obj.event === 'edit'){-->
+                  <!--layer.alert('编辑行：<br>'+ JSON.stringify(data))-->
+              <!--}-->
+          <!--});-->
+
+          <!--var $ = layui.$, active = {-->
+              <!--getCheckData: function(){ //获取选中数据-->
+                  <!--var checkStatus = table.checkStatus('idTest')-->
+                      <!--,data = checkStatus.data;-->
+                  <!--layer.alert(JSON.stringify(data));-->
+              <!--}-->
+              <!--,getCheckLength: function(){ //获取选中数目-->
+                  <!--var checkStatus = table.checkStatus('idTest')-->
+                      <!--,data = checkStatus.data;-->
+                  <!--layer.msg('选中了：'+ data.length + ' 个');-->
+              <!--}-->
+              <!--,isAll: function(){ //验证是否全选-->
+                  <!--var checkStatus = table.checkStatus('idTest');-->
+                  <!--layer.msg(checkStatus.isAll ? '全选': '未全选')-->
+              <!--}-->
+          <!--};-->
+
+          <!--$('.demoTable .layui-btn').on('click', function(){-->
+              <!--var type = $(this).data('type');-->
+              <!--active[type] ? active[type].call(this) : '';-->
+          <!--});-->
+      <!--});-->
+  <!--</script>-->
+
+  <!--</body>-->
+<script type="text/javascript">
+
+layui.config({
+    base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['mm'],function(){
+      var
+     mm = layui.mm;
+  
+    
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <script type="text/javascript" src="../H-ui.admin/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="../H-ui.admin/lib/respond.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="../H-ui.admin/static/h-ui.admin/css/style.css"/>
+    <script type="text/javascript" src="../H-ui.admin/lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../layui/laydate/laydate.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/bootstrap.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+    <div class="modal-dialog" style="width: 700px">
+        <style>.modal-backdrop {
+            z-index: 0;
+        }</style>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    聊天窗口
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="mydiv" class="show-chat-content"
+                     style="width: 600px;height: 400px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+            </div>
+            <div class="modal-footer">
+                <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                      class="control"></textarea>
+                    <button id="sendButton">发送</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">客户信息列表</a></li>
+            <!--<li class="layui-nav-item"  id="kefuguanli">-->
+            <!--<a href="javascript:;">客服管理</a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a href="/houtaiyuangong/YuanGong.html">客服情况列表</a></dd>-->
+            <!--<dd><a href="/houtaiyuangong/KeFuCaoZuoRiZhi.html">客服操作日志</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a data-toggle="modal" data-target="#myModal" id="kefu">客户消息<span class="badge"
+                                                                                                         id="lianxi"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a style="text-decoration:none" onclick="member_show('客服个人信息','kefu-show.html','1','360','400')" href="javascript:;" title="客服个人信息">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    <span id="xingMing"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">待添加</a></dd>
+                    <dd><a href="">待添加</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="../denglu.html">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">订单管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="../houtaidingdan/DingDanGuanLi.html">订单详列</a></dd>
+                        <dd><a href="../houtaidingdan/LieBiaoTongJi.html">订单统计列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="../houtaikehuguanli/yonghuxinxiguanli.html">客户信息列表</a></dd>
+                        <dd><a href="../houtaikehuguanli/KeHuCaoZuoRiZhi.html">客户操作日志</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed" id="kefuguanli">
+                    <a href="javascript:;">客服管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/houtaiyuangong/YuanGong.html">客服情况列表</a></dd>
+                        <dd><a href="/houtaiyuangong/KeFuCaoZuoRiZhi.html">客服操作日志</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="../houtaishangpinguanli/select.html">后台商品管理</a></li>
+                <li class="layui-nav-item"><a href="../houtaitongji/xiaoliangtongji.html">销量查询</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <div style="padding: 15px;">
+            <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户中心
+                <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r"
+                                                            style="line-height:1.6em;margin-top:3px"
+                                                            href="javascript:location.replace(location.href);"
+                                                            title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+            <div class="page-container">
+                <br class="text-c r">
+                注册时间：
+                <input type="text" class="demo-input" placeholder="请选择日期" id="zhucedatemin">
+                -
+                <input type="text" class="demo-input" placeholder="请选择日期" id="zhucedatemax">
+                <input type="text" class="input-text" style="width:120px; height:20px" placeholder="输入用户名称"
+                       id="yonghuming">
+                <br/>
+                最后登录时间：
+                <input type="text" class="demo-input" placeholder="请选择日期" id="dengludatemin">
+                -
+                <input type="text" class="demo-input" placeholder="请选择日期" id="dengludatemax">
+                <input type="text" class="input-text" style="width:120px; height:20px" placeholder="输入用户电话"
+                       id="shoujihaoma">
+                <button type="submit" class="btn btn-success radius" id="sousuo"><i class="Hui-iconfont">&#xe665;</i>
+                    搜索用户
+                </button>
+                </br>
+                </br>
+                <input type='radio' name="shijian" value='zuijin' checked="checked">最近<input id="day" value="3"
+                                                                                             style="width:25px;">天
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='day'>今天
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='week'>本周
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='month'>本月
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='year'>今年
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='sweek'>上周
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='smonth'>上月
+                &nbsp;&nbsp;&nbsp;<input type='radio' name="shijian" value='syear'>去年
+                <button type="submit" class="btn btn-success radius" id="huoyue"><i class="Hui-iconfont">&#xe665;</i>
+                    查看活跃用户
+                </button>
+                <button type="submit" class="btn btn-success radius" id="zhuce"><i class="Hui-iconfont">&#xe665;</i>
+                    查看注册用户
+                </button>
+            </div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="r">共有数据：<strong id="str1" value="0"></strong> 条</span>
+            </div>
+            <div class="mt-20">
+                <table class="table table-border table-bordered table-hover table-bg table-sort">
+                    <thead>
+                    <tr class="text-c">
+                        <th width="25"><input type="checkbox" name="" value=""></th>
+                        <th width="25">ID</th>
+                        <th width="100">用户名</th>
+                        <th width="80">手机</th>
+                        <th width="150">邮箱</th>
+                        <th width="45">登陆次数</th>
+                        <th width="80">最后登录时间</th>
+                        <th width="80">注册时间</th>
+                        <th width="30">状态</th>
+                        <th width="40">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="fenye" style="display: inline-block"></div>
+    </div>
+</div>
+
+<div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+</div>
+</div>
+<script src="../layui/layui.js"></script>
+</body>
+<script type="text/javascript" src="../H-ui.admin/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="../H-ui.admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="../H-ui.admin/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="../H-ui.admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="../H-ui.admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="../H-ui.admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    var page = 1;
+    var zongtiaoshu = 102;
+    var username;
+    $(function () {
+        function moren() {
+            var json = {
+                data: {
+                    yonghuming: $("#yonghuming").val(), shoujihaoma: $("#shoujihaoma").val(),
+                    zhucedatemin: $("#zhucedatemin").val(), zhucedatemax: $("#zhucedatemax").val(),
+                    dengludatemin: $("#dengludatemin").val(), dengludatemax: $("#dengludatemax").val(),
+                    page: page, limit: 10
+                }, action: "1"
+            };
+            $.ajax({
+                url: "/servlet/kehuServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                    if(response.code===-100){
+                        location.href = "/denglu.html";
+                    }
+                    $("#xingMing").text(response.username);
+                    if (response.username != '大老板') {
+                        $("#kefuguanli").css("display", "none");
+                    }
+                    fenye();
+                    zongtiaoshu = response.count;
+                    var str = document.getElementById("str1");
+                    str.innerHTML = zongtiaoshu;
+                    shuju(response);
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+
+        }
+
+        moren();
+        $("#sousuo").click(function () {
+            page = 1;
+            moren();
+        });
+        function shuju(response) {
+            $("#tbody tr").remove();
+            var json = response.data;
+            for (var i = 0; i < json.length; i++) {
+                var tr = "<tr>" +
+                    "<td><input type='checkbox'  name='duoxuankuang' value='" + json[i].id + "'/></td>" +
+                    "<td>" + (i + 1 + (page - 1) * 10) + "</td>" +
+                    "<td>" + json[i].yonghuming + "</td>" +
+                    "<td>" + json[i].shoujihaoma + "</td>" +
+                    "<td>" + json[i].youxiang + "</td>" +
+                    "<td>" + json[i].denglucishu + "</td>" +
+                    "<td>" + json[i].zuihouyicidenglushijian + "</td>" +
+                    "<td>" + json[i].zhuceshijian + "</td>" +
+                    "<td>" + json[i].zhuangtai + "</td>" +
+                    "<td class=\"td-manage\">" +
+                    "<a style=\"text-decoration:none\" onclick=\"member_stop(this,'" + json[i].id + "','" + json[i].zhuangtai + "')\" href=\"javascript:;\" title=\"停用\"><i class=\"Hui-iconfont\">&#xe631;</i></a>" +
+                    "<a style=\"text-decoration:none\" onclick=\"member_start(this,'" + json[i].id + "','" + json[i].zhuangtai + "')\" href=\"javascript:;\" title=\"启用\"><i class=\"Hui-iconfont\">&#xe615;</i></a>" +
+                    "<a style=\"text-decoration:none\" onclick=\"member_show('客户个人信息','member-show.html?yonghuming=" + json[i].yonghuming + "','" + json[i].yonghuming + "','360','400')\" href=\"javascript:;\" title=\"客户个人信息\"><i class=\"Hui-iconfont\">&#xe626;</i></a>" +
+                    "</tr>";
+                $("#tbody").append(tr);
+            }
+        }
+
+        function fenye() {
+            layui.use('laypage', function () {
+                var laypage = layui.laypage;
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'fenye' //注意，这里的 test1 是 ID，不用加 # 号
+                    , count: zongtiaoshu //数据总数，从服务端得到
+                    , curr: page   //设定初始页
+                    , jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        page = obj.curr;   // 得到当前页码
+                        console.log(obj.limit); //得到每页显示的条数
+                        //首次不执行
+                        if (!first) {
+                            moren();
+                        }
+                    }
+                });
+            });
+        }
+
+        $("#huoyue").click(function () {
+            page = 1;
+            var json = {
+                data: {
+                    yonghuming: $("#yonghuming").val(), shoujihaoma: $("#shoujihaoma").val(),
+                    zhucedatemin: $("#zhucedatemin").val(), zhucedatemax: $("#zhucedatemax").val(),
+                    dengludatemin: $("#dengludatemin").val(), dengludatemax: $("#dengludatemax").val(),
+                    day: $("#day").val(), page: page, limit: 10
+                }, action: $("input[name='shijian']:checked").val()
+            };
+            $.ajax({
+                url: "/servlet/huoyueServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {
+                    fenye();
+                    zongtiaoshu = response.count;
+                    var str = document.getElementById("str1");
+                    str.innerHTML = zongtiaoshu;
+                    shuju(response);
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+        })
+        $("#zhuce").click(function () {
+            page = 1;
+            var json = {
+                data: {
+                    yonghuming: $("#yonghuming").val(), shoujihaoma: $("#shoujihaoma").val(),
+                    zhucedatemin: $("#zhucedatemin").val(), zhucedatemax: $("#zhucedatemax").val(),
+                    dengludatemin: $("#dengludatemin").val(), dengludatemax: $("#dengludatemax").val(),
+                    day: $("#day").val(), page: page, limit: 10
+                }, action: $("input[name='shijian']:checked").val()
+            };
+            $.ajax({
+                url: "/servlet/zhuceServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {
+                    fenye();
+                    zongtiaoshu = response.count;
+                    var str = document.getElementById("str1");
+                    str.innerHTML = zongtiaoshu;
+                    shuju(response);
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+        })
+    });
+
+    /*用户-查看*/
+    function member_show(title, url, id, w, h) {
+        if (title == null || title == '') {
+            title=false;
+        };
+        if (url == null || url == '') {
+            url="404.html";
+        };
+        if (w == null || w == '') {
+            w=800;
+        };
+        if (h == null || h == '') {
+            h=($(window).height() - 50);
+        };
+        layer.open({
+            type: 2,
+            area: [w+'px', h +'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade:0.4,
+            title: title,
+            content: url
+        });
+    }
+
+
+
+
+    /*用户-停用(冻结)*/
+    function member_stop(obj, id, zhuangtai) {
+        layer.confirm('确认要停用吗？', function (index) {
+            if (zhuangtai === "已停用") {
+                layer.msg('已经是停用了!', {icon: 6, time: 1000});
+            } else {
+                var json = {action: "2", zhuangtai: 0, id: id};
+                $.ajax({
+                    url: "/servlet/kehuServlet",    // 请求路径
+                    type: "post",            // 请求的方式，不区分大小写
+                    cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                    contentType: "application/json;charset=utf-8",
+                    datatype: "json",        // 返回类型，text文本、html页面、json数据
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        layer.msg('已停用!', {icon: 6, time: 1000});
+                        setInterval(location.reload(), 2000);
+                    },
+                    error: function (response) {
+                        console.log(response.code);
+                    }
+                });
+            }
+        });
+    }
+
+    /*用户-启用(激活)*/
+    function member_start(obj, id, zhuangtai) {
+        layer.confirm('确认要启用吗？', function (index) {
+            if (zhuangtai === "已启用") {
+                layer.msg('已经是启用了!', {icon: 6, time: 1000});
+            } else {
+                var json = {action: "2", zhuangtai: 1, id: id};
+                $.ajax({
+                    url: "/servlet/kehuServlet",    // 请求路径
+                    type: "post",            // 请求的方式，不区分大小写
+                    cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                    contentType: "application/json;charset=utf-8",
+                    datatype: "json",        // 返回类型，text文本、html页面、json数据
+                    data: JSON.stringify(json),
+                    success: function (response) {
+                        layer.msg('已启用!', {icon: 6, time: 1000});
+                        setInterval(location.reload(), 2000);
+                    },
+                    error: function (data) {
+                        console.log(data.msg);
+                    }
+                });
+            }
+        });
+    }
+</script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#zhucedatemin' //指定元素
+        });
+        laydate.render({
+            elem: '#zhucedatemax' //指定元素
+        });
+        laydate.render({
+            elem: '#dengludatemin' //指定元素
+        });
+        laydate.render({
+            elem: '#dengludatemax' //指定元素
+        });
+    });
+</script>
+<script>
+    $(function () {
+        $("#sendButton").click(function () {
+            var msg = $("#client_msg").val();
+            $("#mydiv").append("<div style='margin-top: 20px;margin-right: 10px;text-align: right'><span style='font-size: 15px;color: red;'>你说:" + msg + "</span><p/>");
+            $.ajax({
+                url: "/clientServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "text",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    YongHuMing: 'zhangsan',
+                    msgKey: msg,
+                    action: 2,
+                    yongHuMing: 'kefu'
+                },
+                success: function (response) {
+                    //alert("数据: " + response);
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+            $("#client_msg").val("");
+            var showContent = $(".show-chat-content");
+            showContent[0].scrollTop = showContent[0].scrollHeight;
+        });
+    });
+    var count = 0;
+
+    function getMsg() {
+        $.ajax({
+            url: "/serverServlet",    // 请求路径
+            type: "post",            // 请求的方式，不区分大小写
+            cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+                action: 1
+            },
+            success: function (response) {
+                //alert("数据: " + response);
+                if (response != null && response != "") {   // 如果后台服务没有数据，则不会添加
+                    $("#mydiv").append("<div style='margin-top: 20px'><span style='font-size: 15px;color: royalblue;'>" + response.yongHuMing + ":" + response.msgKey + "</span></div>");
+                    count++;
+                }
+            },
+            error: function (response) {
+                console.log("出错" + JSON.stringify(response));
+            }
+        });
+        $("#kefu").click(function () {
+            count = 0;
+        });
+        $("#lianxi").text(0 + count);
+    }
+
+    setInterval("getMsg()", 50);    // 轮询
+
+</script>
+<script type="text/javascript" src="../H-ui.admin/lib/laypage/1.2/laypage.js" charset="utf-8"></script>
+</html>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>StartShopping-账户设置</title>
+    <meta name="keywords" content="StartShopping,打折,品牌折扣,限时抢购,特卖"/>
+    <meta name="description"
+          content="StartShopping购物网以1-7折超低折扣对全球各大品牌进行限时特卖，商品囊括服装、化妆品、家居、奢侈品等上千品牌。100%正品、低价、货到付款、7天无理由退货。"/>
+    <link rel="stylesheet" type="text/css" href="//member.vipstatic.com/css/public/myi/1/sidebar-hash-de660973.css">
+    <link rel="stylesheet" type="text/css" href="//member.vipstatic.com/css/public/myi/1/common-hash-d334948a.css">
+    <!--BootStrap-->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <style>
+        .input-group-addon {
+            background-color: #ff006e;
+            color: white
+        }
+
+        .xiafangspan-div {
+            height: 20px;
+        }
+
+        .xiafangspan_yz {
+            position: relative;
+            left: 40px;
+        }
+        #mimahuoquyanzhengmaspan,#hqyjspan,#youxianghuoquyanzhengmaspan{
+            background-color: #909090 ;
+        }
+    </style>
+</head>
+<body>
+<link charset="utf-8" type="text/css" rel="stylesheet"
+      href="//member.vipstatic.com/css/public/myi/1/user/common-hash-480195ea.css">
+<link charset="utf-8" type="text/css" rel="stylesheet"
+      href="//member.vipstatic.com/css/public/myi/1/info-hash-e70cdbb9.css">
+<link charset="utf-8" type="text/css" rel="stylesheet"
+      href="//member.vipstatic.com/css/public/myi/1/user/trade-hash-9fac3bd8.css">
+<div class="m-body">
+    <div class="m-common-wrap">
+        <accountContent class="m-wrap-left">
+        </accountContent>
+        <div class="m-wrap-right">
+            <div class="sub-title">
+                <h3><a id="StartShopping">StartShopping&nbsp;</a><span class="split">&gt;&nbsp;</span><a id="wodeziliao">我的资料&nbsp;</a><span class="split">&gt;&nbsp;</span>账户设置&nbsp;</h3>
+            </div>
+            <div class="account">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div style="padding: 50px 100px 20px;">
+
+                            <div class="input-group">
+                                <span style="" class="input-group-addon">用户名</span>
+                                <input id="yonghuming" type="text" class="form-control" disabled>
+                            </div>
+                            <br>
+                            <!--分割线-->
+                            <hr class="simple" width="95%" color="#F6007C"/>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">密码</span>
+                                <input id="mima" type="password" class="form-control" disabled>
+                            </div>
+                            <br>
+                            <button id="genggaimima" class="btn" data-toggle="modal" data-target="#myModal01">
+                                更改密码
+                            </button>
+                            <!-- 更改密码模态框（Modal） -->
+                            <div class="modal fade" id="myModal01" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+                                <div class="modal-dialog" style="width: 400px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel01" style="color: #ff006e">
+                                                更改密码
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--  控制div的大小，核心控制 col-sm控制占几列，col-sm-offset控制从左开始，偏移几列 -->
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span class="input-group-addon">新密码</span>
+                                                <input type="password" class="form-control" id="xinmima" maxlength="20"
+                                                       placeholder="密码由6-20位字母，数字和符号组合">
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="xinmimaspan"></span></div>
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span class="input-group-addon">手机号码</span>
+                                                <input type="text" class="form-control" id="mimashouji"
+                                                       placeholder="请输入手机号码">
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="mimashoujispan"></span></div>
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <input id="mimashoujiyanzhengma" type="text" class="form-control"
+                                                       placeholder="请输入手机验证码">
+                                                <span id="mimahuoquyanzhengmaspan"
+                                                      class="input-group-addon">获取验证码</span>
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="mimashoujiyanzhengmaspan"></span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button style="color: #ff006e;border-color: #ff006e;"
+                                                    id="mybutton_genggaimima" type="button" class="btn">
+                                                提交更改
+                                            </button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal -->
+                            </div>
+                            <br>
+                            <!--分割线-->
+                            <hr class="simple" width="95%" color="#F6007C"/>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">手机号码</span>
+                                <input id="shoujihaoma" type="text" class="form-control" disabled>
+                            </div>
+                            <br>
+                            <button id="genggaishoujihaoma" class="btn" data-toggle="modal" data-target="#myModal02">
+                                更改绑定手机
+                            </button>
+                            <!-- 更改手机模态框（Modal） -->
+                            <div class="modal fade" id="myModal02" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+                                <div class="modal-dialog" style="width: 400px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel02" style="color: #ff006e">
+                                                更改绑定手机
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--  控制div的大小，核心控制 col-sm控制占几列，col-sm-offset控制从左开始，偏移几列 -->
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span class="input-group-addon">新手机号</span>
+                                                <input type="text" class="form-control" id="xinshoujihaoma"
+                                                       placeholder="请输入新手机号码">
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="xinshoujihaomaspan"></span></div>
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span class="input-group-addon">邮箱账号</span>
+                                                <input type="text" class="form-control" id="ggsj_yoxiang"
+                                                       placeholder="请输入邮箱账号">
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="ggsj_yoxiangspan"></span></div>
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span id="hqyjspan" class="input-group-addon">获取邮件</span>
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="youxiangyanzhengmaspan"></span></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal -->
+                            </div>
+                            <br>
+                            <!--分割线-->
+                            <hr class="simple" width="95%" color="#F6007C"/>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">邮箱</span>
+                                <input id="youxiang" type="text" class="form-control" disabled>
+                            </div>
+                            <br>
+                            <button id="genggaiyouxiang" class="btn" data-toggle="modal" data-target="#myModal03">
+                                更改绑定邮箱
+                            </button>
+                            <!-- 更改邮箱模态框（Modal） -->
+                            <div class="modal fade" id="myModal03" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+                                <div class="modal-dialog" style="width: 400px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel03" style="color: #ff006e">
+                                                更改绑定邮箱
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!--  控制div的大小，核心控制 col-sm控制占几列，col-sm-offset控制从左开始，偏移几列 -->
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span class="input-group-addon">新邮箱</span>
+                                                <input type="text" class="form-control" id="xinyouxiang"
+                                                       placeholder="请输入新邮箱">
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="xinyouxiangspan"></span></div>
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <span class="input-group-addon">手机号码</span>
+                                                <input type="text" class="form-control" id="youxiangshouji"
+                                                       placeholder="请输入手机号码">
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="youxiangshoujispan"></span></div>
+                                            <div class="input-group col-sm-10 col-sm-offset-1">
+                                                <input id="youxiangshoujiyanzhengma" type="text" class="form-control"
+                                                       placeholder="请输入手机验证码">
+                                                <span id="youxianghuoquyanzhengmaspan"
+                                                      class="input-group-addon">获取验证码</span>
+                                            </div>
+                                            <div class="xiafangspan-div"><span class="xiafangspan_yz"
+                                                                               id="youxiangshoujiyanzhengmaspan"></span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button style="color: #ff006e;border-color: #ff006e;"
+                                                    id="mybutton_genggaiyouxiang" type="button" class="btn">
+                                                提交更改
+                                            </button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+    //验证码倒计时 start-------------------------------------------------------------------
+    var countdown=60;
+    function sendemail(obj){
+        settime(obj);
+    }
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.css({"background-color":"#ff006e"});
+            if(obj.prop("id") == "hqyjspan"){
+                obj.text("获取邮件");
+            }else{
+                obj.text("获取验证码");
+            }
+            countdown = 60;
+            return;
+        } else {
+            obj.css({"background-color":"#909090"});
+            obj.text("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
+    //验证码倒计时 end---------------------------------------------------------------------
+    $(function () {
+        var gerenziliao_yonghuming = decodeURI(window.location.search.substring(12));//此时用户的用户名*******
+        $("#StartShopping").click(function () {
+            window.location.href = "/html/shouye.html?yonghuming="+gerenziliao_yonghuming+"";
+        });
+        $("#wodeziliao").click(function () {
+            window.location.href = "/html/gerenziliao.html?yonghuming="+gerenziliao_yonghuming+"";
+        });
+        $("#yonghuming").val("" + gerenziliao_yonghuming + "");//页面刷新就把用户名的值放到对应的text里面
+        function selectYongHu() {
+            var json = {option: "1", yonghuming: "" + gerenziliao_yonghuming + ""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: false,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                    $("#mima").val("" + response.mima + "");
+                    var shoujihaoma = response.shoujihaoma.substring(0,3)+"*****"+response.shoujihaoma.substring(8,11);
+                    $("#shoujihaoma").val("" + shoujihaoma + "");
+                    $("#youxiang").val("" + response.youxiang + "");
+                },
+                error: function (response) {//回调函数
+                }
+            });
+        };//根据用户名，查询出kehudenglu表中的相关数据
+        selectYongHu();//页面刷新时，默认调用一次
+
+        //更改密码 start-------------------------------------------------------------------
+        var xinmima = $("#xinmima");//新密码输入框
+        var xinmimaspan = $("#xinmimaspan");//新密码输入框下方span
+        var mimashouji = $("#mimashouji");//更改密码手机号码输入框
+        var mimashoujispan = $("#mimashoujispan");//更改密码手机号码输入框下方span
+        var mimahuoquyanzhengmaspan = $("#mimahuoquyanzhengmaspan");//获取验证码按钮
+        var mimashoujiyanzhengma = $("#mimashoujiyanzhengma");//验证码输入框
+        var mimashoujiyanzhengmaspan = $("#mimashoujiyanzhengmaspan");//验证码输入框下方span
+        var mybuttongenggaimima = $("#mybutton_genggaimima");//更改密码的提交按钮
+        var ganggaimima_yanzhengma  = "c12c456c798c46c132";
+        xinmima.focus(function () {
+            xinmimaspan.html("<font>密码区分大小写</font>");
+        });//新密码输入框获得焦点时
+        xinmima.keyup(function () {
+            var mima = xinmima.val();
+            if(mima == ""){
+                xinmimaspan.html("<font  color='#ff006e'>密码不能为空</font>");
+                xinmima.css({"border-color":"#ff006e"});
+            }else if(mima.length < 6 || mima.length > 20){
+                xinmimaspan.html("<font  color='#ff006e'>请输入6-20位密码</font>");
+                xinmima.css({"border-color":"#ff006e"});
+            }else {
+                xinmimaspan.html("<font>可用的密码</font>");
+                xinmima.css({"border-color":"#ccc"});
+            }
+        });//新密码输入框用户输入完毕时
+        function piPeiShouJi(obj){
+            var count = 0;
+            var json = {option: "2",
+                yonghuming: "" + gerenziliao_yonghuming + "",
+                shoujihaoma:""+obj+""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: false,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                  count = response.returncount;
+                },
+                error: function (response) {//回调函数
+                }
+            });
+            return count;
+        };//查询手机号是否与用户名对应，匹配返回1，不匹配返回0
+        mimashouji.keyup(function () {
+         if(piPeiShouJi(mimashouji.val()) == 1){
+             mimashoujispan.html("<font>匹配的手机号码</font>");
+             mimashouji.css({"border-color":"#ccc"});
+             mimahuoquyanzhengmaspan.css({"background-color":"#ff006e"});
+         }else {
+             mimashoujispan.html("<font color='#ff006e'>手机号码不匹配</font>");
+             mimashouji.css({"border-color":"#ff006e"});
+             mimahuoquyanzhengmaspan.css({"background-color":"#909090"});
+         }
+        });//手机号码输入框输入完毕时
+        function ggmmhuoquyanzhengma(){
+            var json = {option: "3",
+                yonghuming: "" + gerenziliao_yonghuming + "",
+                shoujihaoma:""+mimashouji.val()+""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: true,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                    ganggaimima_yanzhengma = response.yanzhengma;
+                },
+                error: function (response) {//回调函数
+                }
+            });
+        };//更改密码获取验证码
+        mimahuoquyanzhengmaspan.click(function () {
+            if (xinmimaspan.text() == "可用的密码" &&
+                mimahuoquyanzhengmaspan.text() == "获取验证码" &&
+                mimahuoquyanzhengmaspan.css("background-color") == "rgb(255, 0, 110)" ){
+                ggmmhuoquyanzhengma();
+                sendemail(mimahuoquyanzhengmaspan);
+                mimashoujiyanzhengmaspan.html("<font color='#ff006e'>若未收到验证码，请稍后重试</font>");
+            }else {
+                mimashoujiyanzhengmaspan.html("<font color='#ff006e'>请先完善信息!</font>");
+            }
+            });//获取验证码按钮点击时
+        mimashoujiyanzhengma.keyup(function () {
+            if(mimashoujiyanzhengma.val() == ganggaimima_yanzhengma){
+                mimashoujiyanzhengmaspan.html("<font>验证码正确</font>");
+                mimashoujiyanzhengma.css({"border-color":"#ccc"});
+            }else {
+                mimashoujiyanzhengmaspan.html("<font color='#ff006e'>验证码错误</font>");
+                mimashoujiyanzhengma.css({"border-color":"#ff006e"});
+            }
+        });//验证码输入框输入完毕时
+        function gengGaiMiMa(){
+            var json = {option: "4",
+                yonghuming: "" + gerenziliao_yonghuming + "",
+                mima:""+xinmima.val()+""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: false,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                },
+                error: function (response) {//回调函数
+                }
+            });
+        };//更改密码
+        mybuttongenggaimima.click(function () {
+            if( xinmimaspan.text() == "可用的密码" &&
+                mimashoujispan.text() == "匹配的手机号码" &&
+                mimashoujiyanzhengmaspan.text() == "验证码正确"){
+                gengGaiMiMa();
+                mybuttongenggaimima.attr("data-dismiss","modal");
+                window.location.reload();
+            }else if(xinmimaspan.text() != "可用的密码"){
+                xinmimaspan.html("<font color='#ff006e'>请输入可用的密码</font>");
+            }else if(mimashoujispan.text() != "匹配的手机号码"){
+                mimashoujispan.html("<font color='#ff006e'>请输入匹配的手机号码</font>");
+            }else if(mimashoujiyanzhengmaspan.text() != "验证码正确"){
+                mimashoujiyanzhengmaspan.html("<font color='#ff006e'>请输入正确的验证码</font>");
+            }
+
+        });//提交按钮点击时
+        //更改密码 end---------------------------------------------------------------------
+
+        //更改手机 start-------------------------------------------------------------------
+        var xinshoujihaoma = $("#xinshoujihaoma");//新手机号码输入框
+        var xinshoujihaomaspan = $("#xinshoujihaomaspan");//新手机号码输入框下方span
+        var ggsj_yoxiang = $("#ggsj_yoxiang");//邮箱输入框
+        var ggsj_yoxiangspan = $("#ggsj_yoxiangspan");//邮箱输入框下方span
+        var hqyjspan = $("#hqyjspan");//获取邮件按钮（span）
+        var youxiangyanzhengmaspan = $("#youxiangyanzhengmaspan");//获取邮件按钮（span）下方span
+        function selectPhoneIsBangDing(){
+            var json = {option: "5",
+                shoujihaoma: "" + xinshoujihaoma.val() + "",
+                yonghuming:""+gerenziliao_yonghuming+""};//zhanwei
+            var count = 0;
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: false,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                    count = response.panduancount;
+                },
+                error: function (response) {//回调函数
+                }
+            });
+            return count;
+        };//查询手机号码是否已经被绑定过
+        xinshoujihaoma.keyup(function () {
+            //正则 判断手机号码是否有效
+            var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            var xinshoujihaomaval = xinshoujihaoma.val();//新手机号码的值
+            var message = "";
+            var action = false;
+            if(xinshoujihaomaval == "" || xinshoujihaomaval == null){
+                message = "新手机号码不能为空!";
+            }else if(xinshoujihaomaval.length !=11 || !myreg.test(xinshoujihaomaval)){
+                message = "请输入有效的手机号码!";
+            }else if(selectPhoneIsBangDing() == 1){
+                message = "该手机号码已被绑定!";
+            }else {
+                message = "有效的手机号码";
+                action = true;
+            }
+
+            if(!action){
+                xinshoujihaoma.css({"border-color":"#ff006e"});
+                xinshoujihaomaspan.html("<font color='#ff006e'>"+message+"</font>");
+            }else {
+                xinshoujihaoma.css({"border-color":"#ccc"});
+                xinshoujihaomaspan.html("<font color=''>"+message+"</font>");
+            }
+        });//当用户新手机号码输入完毕时
+        function piPeiYouXiang(){
+            var json = {option: "6",
+                yonghuming:""+gerenziliao_yonghuming+"",
+                youxiang: "" + ggsj_yoxiang.val() + ""};
+            var count = 0;
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: false,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                    count = response.panduancount;
+                },
+                error: function (response) {//回调函数
+                }
+            });
+            return count;
+        };//查询邮箱与用户名是否对应,匹配返回1，不匹配返回0
+        ggsj_yoxiang.keyup(function () {
+            var ggsj_yoxiangval = $("#ggsj_yoxiang").val();//邮箱值
+            var message = "";
+            var action = false;
+            if(piPeiYouXiang() == 1){
+                message = "匹配的邮箱号";
+                action = true;
+            }else {
+                message = "此邮箱与用户名不匹配!"
+            }
+            if(!action){
+                ggsj_yoxiangspan.html("<font color='#ff006e'>"+message+"</font>");
+                ggsj_yoxiang.css({"border-color":"#ff006e"});
+                hqyjspan.css({"background-color":"#909090"});
+            }else {
+                ggsj_yoxiangspan.html("<font color=''>"+message+"</font>");
+                ggsj_yoxiang.css({"border-color":"#ccc"});
+                hqyjspan.css({"background-color":"#ff006e"});
+            }
+
+        });//当用户邮箱号输入完毕时
+        function ggsjHuoQuYouJian(){
+            var json = {option: "7",
+                yonghuming: "" + gerenziliao_yonghuming + "",
+                shoujihaoma:""+xinshoujihaoma.val()+"",
+                youxiang:""+ggsj_yoxiang.val()+""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: true,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                },
+                error: function (response) {//回调函数
+                }
+            });
+        };//更改手机获取邮件
+        hqyjspan.click(function () {
+            if (xinshoujihaomaspan.text() == "有效的手机号码" &&
+                hqyjspan.text() == "获取邮件" &&
+                hqyjspan.css("background-color") == "rgb(255, 0, 110)" ){
+                ggsjHuoQuYouJian();
+                sendemail(hqyjspan);
+                youxiangyanzhengmaspan.html("<font color='#ff006e'>若未收到邮件，请稍后重试</font>");
+            }else if(hqyjspan.text() == "获取邮件" &&
+                hqyjspan.css("background-color") != "rgb(255, 0, 110)" ){
+                youxiangyanzhengmaspan.html("<font color='#ff006e'>请先完善信息!</font>");
+            }
+        });//获取邮件按钮点击时
+        //更改手机 end---------------------------------------------------------------------
+
+        //更改邮箱 start-------------------------------------------------------------------
+        var xinyouxiang = $("#xinyouxiang");//新邮箱输入框
+        var xinyouxiangspan = $("#xinyouxiangspan");//新邮箱输入框下方span
+        var youxiangshouji = $("#youxiangshouji");//邮箱更改验证  手机号码  输入框
+        var youxiangshoujispan = $("#youxiangshoujispan");//邮箱更改验证  手机号码  输入框下方span
+        var youxianghuoquyanzhengmaspan = $("#youxianghuoquyanzhengmaspan");//验证码获取按钮
+        var youxiangshoujiyanzhengma = $("#youxiangshoujiyanzhengma");//验证码输入框
+        var youxiangshoujiyanzhengmaspan = $("#youxiangshoujiyanzhengmaspan");//验证码输入框下方 span
+        var mybuttongenggaiyouxiang = $("#mybutton_genggaiyouxiang");//更改邮箱提交按钮
+        function  selectMailIsBangDing() {
+            var json = {option: "9",
+                youxiang: "" + xinyouxiang.val() + "",
+                yonghuming:""+gerenziliao_yonghuming+""};//zhanwei
+            var count = 0;
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: false,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                    count = response.panduancount;
+                },
+                error: function (response) {//回调函数
+                }
+            });
+            return count;
+        };//插损输入的新邮箱是否已经被绑定
+        xinyouxiang.keyup(function () {
+            //判断邮箱是否合法的正则表达式
+            //test（） true为合法，false为不合法
+            var patrn=/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+            var action = false;
+            var message ="";
+            var xinyouxiangval = $("#xinyouxiang").val();//新邮箱的值
+            if(xinyouxiangval == "" || xinyouxiangval == null){
+                message = "新邮箱号不能为空!";
+            }else if(!patrn.test(xinyouxiangval)){
+                message = "请输入有效的邮箱号!";
+            }else if(selectMailIsBangDing() == 1){
+                message = "该邮箱号已被绑定!";
+            }else {
+                message = "有效的邮箱号";
+                action = true;
+            }
+
+            if(!action){
+                xinyouxiang.css({"border-color":"#ff006e"});
+                xinyouxiangspan.html("<font color='#ff006e'>"+message+"</font>");
+            }else{
+                xinyouxiang.css({"border-color":"#ccc"});
+                xinyouxiangspan.html("<font color=''>"+message+"</font>");
+            }
+        });//新邮箱输入框  输入完毕时
+        youxiangshouji.keyup(function () {
+                if(piPeiShouJi(youxiangshouji.val()) == 1){
+                    youxiangshoujispan.html("<font>匹配的手机号码</font>");
+                    youxiangshouji.css({"border-color":"#ccc"});
+                    youxianghuoquyanzhengmaspan.css({"background-color":"#ff006e"});
+                }else {
+                    youxiangshoujispan.html("<font color='#ff006e'>手机号码不匹配</font>");
+                    youxiangshouji.css({"border-color":"#ff006e"});
+                    youxianghuoquyanzhengmaspan.css({"background-color":"#909090"});
+                }
+        });//手机号码输入完毕时
+        var genggaishouji_yanzhengma = "1se2csx35saz6cxaas5e2";
+        function ggsjhuoquyanzhengma(){
+            var json = {option: "3",
+                yonghuming: "" + gerenziliao_yonghuming + "",
+                shoujihaoma:""+youxiangshouji.val()+""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: true,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                    genggaishouji_yanzhengma = response.yanzhengma;
+                },
+                error: function (response) {//回调函数
+                }
+            });
+        };//更改密码获取验证码
+        youxianghuoquyanzhengmaspan.click(function () {
+            if (xinyouxiangspan.text() == "有效的邮箱号" &&
+                youxianghuoquyanzhengmaspan.text() == "获取验证码" &&
+                youxianghuoquyanzhengmaspan.css("background-color") == "rgb(255, 0, 110)" ){
+                ggsjhuoquyanzhengma();
+                sendemail(youxianghuoquyanzhengmaspan);
+                youxiangshoujiyanzhengmaspan.html("<font color='#ff006e'>若未收到验证码，请稍后重试</font>");
+            }else if (youxianghuoquyanzhengmaspan.text() == "获取验证码" &&
+                youxianghuoquyanzhengmaspan.css("background-color") != "rgb(255, 0, 110)") {
+                youxiangshoujiyanzhengmaspan.html("<font color='#ff006e'>请先完善信息!</font>");
+            }
+        });//获取验证码按钮点击时
+        youxiangshoujiyanzhengma.keyup(function () {
+            if(youxiangshoujiyanzhengma.val() == genggaishouji_yanzhengma){
+                youxiangshoujiyanzhengmaspan.html("<font>验证码正确</font>");
+                youxiangshoujiyanzhengma.css({"border-color":"#ccc"});
+            }else {
+                youxiangshoujiyanzhengmaspan.html("<font color='#ff006e'>验证码错误</font>");
+                youxiangshoujiyanzhengma.css({"border-color":"#ff006e"});
+            }
+        });//验证码输入框输入完毕时
+        function gengGaiYouXiang(){
+            var json = {option: "10",
+                yonghuming: "" + gerenziliao_yonghuming + "",
+                youxiang:""+xinyouxiang.val()+""};
+            $.ajax({
+                url: "/ZhangHuSheZhiServlet",   // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                async: true,             // 是否异步，true是默认值，false为同步请求
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType: "application/json;charset=utf-8",
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: JSON.stringify(json),
+                success: function (response) {//回调函数
+                },
+                error: function (response) {//回调函数
+                }
+            });
+        };//更改邮箱
+        mybuttongenggaiyouxiang.click(function () {
+            if( xinyouxiangspan.text() == "有效的邮箱号" &&
+                youxiangshoujispan.text() == "匹配的手机号码" &&
+                youxiangshoujiyanzhengmaspan.text() == "验证码正确"){
+                gengGaiYouXiang()
+                mybuttongenggaiyouxiang.attr("data-dismiss","modal");
+                window.location.reload();
+            }else if(xinyouxiangspan.text() != "有效的邮箱号"){
+                xinyouxiangspan.html("<font color='#ff006e'>请输入有效的邮箱</font>");
+            }else if(youxiangshoujispan.text() != "匹配的手机号码"){
+                youxiangshoujispan.html("<font color='#ff006e'>请输入匹配的手机号码</font>");
+            }else if(youxiangshoujiyanzhengmaspan.text() != "验证码正确"){
+                youxiangshoujiyanzhengmaspan.html("<font color='#ff006e'>请输入正确的验证码</font>");
+            }
+
+        });//提交按钮点击时
+        //更改邮箱 end---------------------------------------------------------------------
+
+    });
+</script>
+</html>

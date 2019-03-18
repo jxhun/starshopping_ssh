@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+</head>
+<body>
+<div style="width: 500px; margin: auto" id="mimakuang">
+    <div style="background-color: rgba(208,232,203,0.2);margin-top: 50px">
+        <div class="modal-body">
+            <!--  控制div的大小，核心控制 col-sm控制占几列，col-sm-offset控制从左开始，偏移几列 -->
+            <span style="font-size: 15px;color: red;display: inline-block; margin-top: 30px">检测到您的密码为初始密码，请从新设置密码</span>
+            <div class="input-group col-sm-10 col-sm-offset-1" style="margin-top: 20px">
+                <span class="input-group-addon">新密码:</span>
+                <input type="password" class="form-control" id="mima" placeholder="请输入新密码">
+            </div>
+            <br>
+            <div class="input-group col-sm-10 col-sm-offset-1">
+                <span class="input-group-addon">确认密码:</span>
+                <input type="password" class="form-control" placeholder="请再次输入输入密码" id="mima2" onkeyup="jiance()">
+            </div>
+            <br>
+        </div>
+        <div class="modal-footer">
+            <button id="denglubutton" type="button" class="btn btn-primary col-sm-2 col-sm-offset-1">
+                确认
+            </button>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $("#denglubutton").click(function () {
+            $.ajax({
+                url: "/houTaiDengLuServlet",   // 请求路径
+                type: "POST",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    mima: $("#mima").val(),
+                    mima2: $("#mima2").val(),
+                    action: 'xiugai'
+                },
+                success: function (response) {
+                    var code = response.returncode;
+                    if (code == -1) {
+                        alert("修改密码失败");
+                    } else if (code == -3) {
+                        alert("服务器出错");
+                    } else if (code == -100) {
+                        $(location).attr("href", "/denglu.html")
+                    } else if (code == 200) {
+                        $(location).attr("href", "/houtaidingdan/LieBiaoTongJi.html")
+                    }
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+        });
+    });
+
+    function mi() {
+        document.getElementById("mimakuang").style.display = "none";
+        document.getElementById("yanzhengkuang").style.display = "";
+    }
+
+    function shou() {
+        document.getElementById("mimakuang").style.display = "";
+        document.getElementById("yanzhengkuang").style.display = "none";
+    }
+
+</script>
+</html>

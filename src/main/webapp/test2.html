@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // var test = window.location.search;
+    // var test2 = test.substring(test.lastIndexOf("=") + 1);
+    // alert(test2)
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+    }
+
+    var ShangPinZuBianHao = getURLParameter('canshu');
+    alert(ShangPinZuBianHao)
+</script>
+</body>
+</html>

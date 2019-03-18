@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+  <script type="text/javascript" src="../res/layui/layui.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+  <script src="../js/jquery-3.3.1.min.js"></script>
+  <script src="../js/bootstrap.js"></script>
+
+  <link rel="stylesheet" href="../dist/autocomplete.css">
+  <!--<link rel="stylesheet" href="../dist/style.css">-->
+  <script src="../dist/jquery.js"></script>
+  <script src="../dist/autocomplete.js"></script>
+
+
+</head>
+<body>
+
+  <div class="site-nav-bg">
+    <div class="site-nav w1200">
+      <p class="sn-back-home">
+        <i class="layui-icon layui-icon-home"></i>
+        <a id="souye">首页</a>
+      </p>
+      <div class="sn-quick-menu">
+        <div id="gerenzhongxin" class="login"><a id="dl" style="margin-left: 10px"  href="/html/login.html">登录</a></div>
+        <div class="sp-cart"><a  id="gwc" href="/html/shopcart.html">购物车</a><span style="color:#337ab7;margin-left: 10px" data-toggle="modal" data-target="#myModal">联系客服</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+    <div class="modal-dialog" style="width: 700px">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            聊天窗口
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div id="mydiv" class="show-chat-content"
+               style="width: 600px;height: 350px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+        </div>
+        <div class="modal-footer">
+          <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                class="control"></textarea>
+            <button id="sendButton">发送</button>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+
+  <script>
+      $(function () {
+          $("#sendButton").click(function () {
+              var msg = $("#client_msg").val();
+              $("#mydiv").append("<div style='margin-top: 20px;margin-right: 10px;text-align: right'><span style='font-size: 15px;color: red;'>你说:" + msg + "</span><p/>");
+              $.ajax({
+                  url: "/serverServlet",    // 请求路径
+                  type: "post",            // 请求的方式，不区分大小写
+                  cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                  datatype: "json",        // 返回类型，text文本、html页面、json数据
+                  data: {
+                      YongHuMing: 'zhangsan',
+                      msgKey: msg,
+                      action: 2,
+                      yongHuMing:'zhangsan'
+                  },
+                  success: function (response) {
+                      //alert("数据: " + response);
+                  },
+                  error: function (response) {
+                      alert("出错" + response);
+                  }
+              });
+              $("#client_msg").val("");
+              var showContent = $(".show-chat-content");
+              showContent[0].scrollTop = showContent[0].scrollHeight;
+          });
+      });
+
+      function getMsg() {
+          $.ajax({
+              url: "/clientServlet",    // 请求路径
+              type: "post",            // 请求的方式，不区分大小写
+              cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+              datatype: "json",        // 返回类型，text文本、html页面、json数据
+              data: {
+                  action: 1
+              },
+              success: function (response) {
+                  //alert("数据: " + response);
+                  if (response != null && response != "") {   // 如果后台服务没有数据，则不会添加
+                      $("#mydiv").append("<div style='margin-top: 20px;'><span style='font-size: 15px;color: royalblue;'>" + response.yongHuMing + ":" + response.msgKey + "</span></div>");
+                  }
+              },
+              error: function (response) {
+                  console.log("出错" + JSON.stringify(response));
+              }
+          });
+      }
+
+
+      setInterval("getMsg()", 50);    // 轮询
+  </script>
+
+
+
+
+  <div class="header">
+    <div class="headerLayout w1200">
+      <div class="headerCon">
+        <h1 class="mallLogo">
+          <a href="#" title="StartShopping">
+            <img src="../img/biaoti.png">
+          </a>
+        </h1>
+        <div class="mallSearch">
+          <div id="search-form">
+          </div>
+          <!--<form action="" class="layui-form" novalidate style="border-color: #FF40BB">-->
+            <!--<input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">-->
+            <!--<button class="layui-btn" lay-submit lay-filter="formDemo"  style="background-color: #FF40BB">-->
+                <!--<i class="layui-icon layui-icon-search"></i>-->
+            <!--</button>-->
+            <!--<input type="hidden" name="" value="">-->
+          <!--</form>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      var proposals=['服装','女装','男装','鞋','女鞋','男鞋','洗护用品','母婴洗护用品','个人洗护用品','化妆品','护肤品','彩妆','男生护肤品','家电数码','手机','电脑','其他','运动户外','玩具','配饰'];
+      $(document).ready(function(){
+          $('#search-form').autocomplete({
+              hints: proposals,
+              width: 300,
+              height: 30,
+              onSubmit: function(text){
+
+              }
+          });
+      });
+
+      $(function () {
+          $(".autocomplete-button").click(function () {
+              var ss=$(".autocomplete-input").val();
+
+              window.location.href="/html/commodity.html?code="+ss;
+
+          });
+
+      })
+
+  </script>
+
+  <div class="content content-nav-base shopcart-content">
+    <div class="main-nav">
+      <div class="inner-cont0" style="border-bottom: 1px solid #FF40BB">
+        <div class="inner-cont1 w1200" >
+          <div class="inner-cont2">
+            <a href="commodity.html" style="color: #FF40BB" class="active">所有商品</a>
+            <a href="buytoday.html">降价商品</a>
+            <a href="information.html">库存紧张</a>
+            <a href="about.html">关于我们</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="banner-bg w1200" style="border-top:#FF40BB">
+      <h3>夏季清仓</h3>
+      <p>宝宝被子、宝宝衣服3折起</p>
+    </div>
+    <div class="cart w1200">
+      <div id="tt" class="cart-table-th">
+
+      </div>
+      <div class="OrderList">
+        <div class="order-content" id="list-cont">
+        </div>
+      </div>
+
+
+
+      <div class="FloatBarHolder layui-clear">
+        <div class="th th-chk">
+          <div class="select-all">
+            <div class="cart-checkbox">
+              <!--<input  id="" name="select" type="checkbox"  value="true">-->
+              <input class="check-all check" id="" name="select" type="checkbox"  value="true">
+            </div>
+            <label>&nbsp;&nbsp;已选<span class="Selected-pieces">0</span>件</label>
+          </div>
+        </div>
+        <div class="th batch-deletion">
+          <span class="batch-dele-btn" onclick="del();">批量删除</span>
+        </div>
+        <div class="th Settlement">
+          <button class="layui-btn" id="jiesuan">结算</button>
+        </div>
+        <div class="th total">
+          <p>应付：<span id="zongjia" class="pieces-total">0</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+
+
+    $(function () {
+        var yonghuming="";
+        $.ajax({
+            url: "/yonghuming",    // 请求路径
+            type: "post",           // 请求的方式，不区分大小写
+            cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+
+            },
+            success: function (response) {
+                yonghuming=response.yonghuming
+
+                if(yonghuming==null || yonghuming==""){
+                    window.location.href="/html/denglu.html"
+                }else {
+
+                    $("#dl").html(yonghuming);
+                    var img="<img style='margin-left: 10px;width: 30px; height: 30px;' src='../img/user.png'/>";
+                    $("#dl").before(img)
+                    var gr="<a style='color:#f132a5;margin-left: 10px ' id='grzx'>个人中心</a>";
+                    $("#gerenzhongxin").append(gr)
+                    var ddgl="<a style='color:#f132a5;margin-left: 10px ' id='ddgl'>订单管理</a>";
+                    $("#grzx").before(ddgl)
+                    $("#ddgl").click(function () {
+                        window.location.href="/html/dingdanguanli.html?yonghuming="+yonghuming;
+                    });
+
+                    $("#grzx").click(function () {
+                        window.location.href="/html/gerenziliao.html?yonghuming="+yonghuming;
+
+                    });
+
+                    $("#souye").click(function () {
+
+                        window.location.href="/html/index.html?yonghuming="+yonghuming;
+
+                    });
+
+                }
+
+            },
+            error: function (response) {
+                alert("出错" + response);
+            }
+        });
+
+
+
+
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+        }
+        var imgurl=getURLParameter('imgurl');
+        var ms=getURLParameter('ms');
+        var mc=getURLParameter('mc');
+        var end=getURLParameter('end');
+        var end2=getURLParameter('end2');
+        var jiage=getURLParameter('jiage');
+        var num=getURLParameter('num');
+        var ShangPinZuBianHao=getURLParameter('ShangPinZuBianHao');
+        $.ajax({
+                url: "/jiarugouwuche_zheng",    // 请求路径
+                type: "post",           // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    imgurl:imgurl,
+                    ms:ms,
+                    mc:mc,
+                    end:end,
+                    end2:end2,
+                    jiage:jiage,
+                    num:num,
+                    ShangPinZuBianHao:ShangPinZuBianHao
+                },
+                success: function (response) {
+                    var d ="<div class=\"th th-chk\">\n" +
+                        "          <div class=\"select-all\">\n" +
+                        "            <div class=\"cart-checkbox\">\n" +
+                        "              <input class=\"check-all check\" id=\"allCheckked\" type=\"checkbox\" value=\"true\">\n" +
+                        "              <!--<input  id=\"checks\" type=\"checkbox\" value=\"true\">-->\n" +
+                        "            </div>\n" +
+                        "          <label>&nbsp;&nbsp;全选</label>\n" +
+                        "          </div>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"th th-item\">\n" +
+                        "          <div class=\"th-inner\">\n" +
+                        "            商品\n" +
+                        "          </div>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"th th-price\">\n" +
+                        "          <div class=\"th-inner\">\n" +
+                        "            单价\n" +
+                        "          </div>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"th th-amount\">\n" +
+                        "          <div class=\"th-inner\">\n" +
+                        "            数量\n" +
+                        "          </div>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"th th-sum\">\n" +
+                        "          <div class=\"th-inner\">\n" +
+                        "            小计\n" +
+                        "          </div>\n" +
+                        "        </div>\n" +
+                        "        <div class=\"th th-op\">\n" +
+                        "          <div class=\"th-inner\">\n" +
+                        "            操作\n" +
+                        "          </div>\n" +
+                        "        </div>  ";
+
+                    $("#tt").append(d);
+
+                    for(var i=0;i<response.car.length;i++){
+                        var ss="          <ul class=\"item-content layui-clear\">\n" +
+                            "            <li class=\"th th-chk\">\n" +
+                            "              <div class=\"select-all\">\n" +
+                            "                <div class=\"cart-checkbox\">\n" +
+                            "                <input class=\"CheckBoxShop check\" id=\"zz\" type=\"checkbox\" num=\"all\" name=\"select\" value='"+response.car[i].ShangPinBianHao+"'>\n" +
+                            "                </div>\n" +
+                            "              </div>\n" +
+                            "            </li>\n" +
+                            "            <li class=\"th th-item\">\n" +
+                            "              <div class=\"item-cont\">\n" +
+                            "                <a href=\"javascript:;\"><img src='/"+response.car[i].ShangPinBianHao.substring(0,response.car[i].ShangPinBianHao.indexOf("-"))+"/缩略图/0.jpg'></a>\n" +
+                            "                <div class=\"text\">\n" +
+                            "                  <div class=\"title\">"+response.car[i].ShangPinMiaoShu+"</div>\n" +
+                            "                  <div>"+response.car[i].ShangPinMingChen+"</div>\n" +
+                            "                  <p><span>"+response.car[i].ShangPinGuiGe1+"</span>  <span>"+response.car[i].ShangPinGuiGe2+"</span></p>\n" +
+                            "                </div>\n" +
+                            "              </div>\n" +
+                            "            </li>\n" +
+                            "            <li class=\"th th-price\">\n" +
+                            "              <span class=\"th-su\">"+response.car[i].ShangPinJiaGe+"</span>\n" +
+                            "            </li>\n" +
+                            "            <li class=\"th th-amount\">\n" +
+                            "              <div class=\"box-btn layui-clear\">\n" +
+                            "                <div class=\"less layui-btn\">-</div>\n" +
+                            "                <input class=\"Quantity-input\" type=\"\" name=\"\" value="+response.car[i].ShangPinShuLiang+" disabled=\"disabled\">\n" +
+                            "                <div class=\"add layui-btn\">+</div>\n" +
+                            "              </div>\n" +
+                            "            </li>\n" +
+                            "            <li class=\"th th-sum\">\n" +
+                            "              <span class=\"sum\">"+parseFloat(response.car[i].ShangPinJiaGe)*(response.car[i].ShangPinShuLiang)+"</span>\n" +
+                            "            </li>\n" +
+                            "            <li class=\"th th-op\">\n" +
+                            "              <span class=\"dele-btn\" id='delete' onclick='del();'>删除</span>\n" +
+                            "            </li>\n" +
+                            "          </ul>\n";
+
+                        $("#list-cont").append(ss);
+
+                    }
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+
+
+    })
+
+
+    //商品的结算
+    $(function () {
+        $("#jiesuan").click(function () {
+            var url="/shangPingJieShuan_zheng";
+            var arr = new Array();
+            $("input[class='CheckBoxShop check']:checked").each(function(i){
+                arr[i] = $(this).val();
+            });
+            if(arr.length==0){
+                alert("请选择需要结算的商品")
+                return false;
+            }
+            var zongjia=$("#zongjia").html();
+            $.ajax({
+                url: "",    // 请求路径
+                type: "post",           // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    arr:arr
+                },
+                success: function (response) {
+                    location.href="/html/demo.html?arr="+arr+"&url="+url;
+
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+
+
+        });
+
+
+    })
+
+
+    //删除信息
+    function del(){
+        var arr = new Array();
+        $("input[class='CheckBoxShop check']:checked").each(function(i){
+            arr[i] = $(this).val();
+        });
+
+
+        $.ajax({
+            url: "/deletegouwuche_zheng",    // 请求路径
+            type: "post",            // 请求的方式，不区分大小写
+            cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+                arr:arr
+            },
+            success: function (response) {
+            },
+            error: function (response) {
+                // alert("出错" + response);
+            }
+        });
+        $("input[class='CheckBoxShop check']").each(function(i){
+            $(this).checked();
+        });
+
+    };
+
+
+
+
+
+
+
+
+  </script>
+
+<script type="text/javascript">
+  layui.config({
+    base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+  }).use(['mm','jquery','element','car'],function(){
+    var mm = layui.mm,$ = layui.$,element = layui.element,car = layui.car;
+    
+    // 模版导入数据
+    // var html = demo.innerHTML,
+    // listCont = document.getElementById('list-cont');
+    // mm.request({
+    //   url: '../json/shopcart.json',
+    //   success : function(res){
+    //     listCont.innerHTML = mm.renderHtml(html,res)
+    //     element.render();
+    //     car.init()
+    //   },
+    //   error: function(res){
+    //     console.log(res);
+    //   }
+    // })
+    // 
+    car.init()
+
+
+});
+</script>
+</body>
+</html>

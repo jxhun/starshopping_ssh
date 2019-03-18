@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+ <title>订单处理</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta name="description" content=""/>
+ <meta name="format-detection" content="telephone=no" />
+ <meta name=""/>
+
+
+
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="../css/tasp.css" />
+<link href="../css/orderconfirm.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+
+<script src="../js/jquery-3.3.1.min.js"></script>
+    <script  src="../js/bootstrap.js"></script>
+
+<style>
+#page{width:auto;}
+#comm-header-inner,#content{width:950px;margin:auto;}
+#logo{padding-top:26px;padding-bottom:12px;}
+#header .wrap-box{margin-top:-67px;}
+#logo .logo{position:relative;overflow:hidden;display:inline-block;width:140px;height:35px;font-size:35px;line-height:35px;color:#f40;}
+#logo .logo .i{position:absolute;width:140px;height:35px;top:0;left:0;background:url(http://a.tbcdn.cn/tbsp/img/header/logo.png);}
+</style>
+
+</head>
+<body data-spm="1">
+<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a id="souye">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+            <div id="gerenzhongxin" class="login"><a id="dl" style="margin-left: 10px"  href="/html/denglu.html">登录</a></div>
+            <div class="sp-cart"><a  id="gwc" >购物车</a>
+                <span style="color:#337ab7;margin-left: 10px" data-toggle="modal" data-target="#myModal">联系客服</span></div>
+        </div>
+    </div>
+</div>
+
+
+<div id="page">
+
+ <div id="content" class="grid-c">
+
+  <div id="address" class="address" style="margin-top: 20px;" data-spm="2">
+<form name="addrForm" id="addrForm" action="#">
+<h3>确认收货地址
+
+
+    <script>
+        $(function () {
+            var yonghuming="";
+            $.ajax({
+                url: "/yonghuming",    // 请求路径
+                type: "post",           // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+
+                },
+                success: function (response) {
+                    yonghuming=response.yonghuming
+
+                    if(yonghuming==null || yonghuming==""){
+                        window.location.href="/html/denglu.html"
+                    }else {
+
+                        $("#dl").html(yonghuming);
+                        var img="<img style='margin-left: 10px;width: 30px; height: 30px;' src='../img/user.png'/>";
+                        $("#dl").before(img)
+                        var gr="<a style='color:#f132a5;margin-left: 10px ' id='grzx'>个人中心</a>";
+                        $("#gerenzhongxin").append(gr)
+                        var ddgl="<a style='color:#f132a5;margin-left: 10px ' id='ddgl'>订单管理</a>";
+                        $("#grzx").before(ddgl)
+                        $("#ddgl").click(function () {
+                            window.location.href="/html/dingdanguanli.html?yonghuming="+yonghuming;
+                        });
+
+                        $("#grzx").click(function () {
+                            window.location.href="/html/gerenziliao.html?yonghuming="+yonghuming;
+
+                        });
+
+                        $("#souye").click(function () {
+
+                            window.location.href="/html/index.html?yonghuming="+yonghuming;
+
+                        });
+
+                    }
+
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+
+
+        })
+    </script>
+
+</h3>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+        <div class="modal-dialog" style="width: 700px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        聊天窗口
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="mydiv" class="show-chat-content"
+                         style="width: 600px;height: 350px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+                </div>
+                <div class="modal-footer">
+                    <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                          class="control"></textarea>
+                        <button id="sendButton">发送</button>
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <script>
+        $(function () {
+            $("#sendButton").click(function () {
+                var msg = $("#client_msg").val();
+                $("#mydiv").append("<div style='margin-top: 20px;margin-right: 10px;text-align: right'><span style='font-size: 15px;color: red;'>你说:" + msg + "</span><p/>");
+                $.ajax({
+                    url: "/serverServlet",    // 请求路径
+                    type: "post",            // 请求的方式，不区分大小写
+                    cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                    datatype: "json",        // 返回类型，text文本、html页面、json数据
+                    data: {
+                        YongHuMing: 'zhangsan',
+                        msgKey: msg,
+                        action: 2,
+                        yongHuMing:'zhangsan'
+                    },
+                    success: function (response) {
+                        //alert("数据: " + response);
+                    },
+                    error: function (response) {
+                        alert("出错" + response);
+                    }
+                });
+                $("#client_msg").val("");
+                var showContent = $(".show-chat-content");
+                showContent[0].scrollTop = showContent[0].scrollHeight;
+            });
+        });
+
+        function getMsg() {
+            $.ajax({
+                url: "/clientServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    action: 1
+                },
+                success: function (response) {
+                    //alert("数据: " + response);
+                    if (response != null && response != "") {   // 如果后台服务没有数据，则不会添加
+                        $("#mydiv").append("<div style='margin-top: 20px;'><span style='font-size: 15px;color: royalblue;'>" + response.yongHuMing + ":" + response.msgKey + "</span></div>");
+                    }
+                },
+                error: function (response) {
+                    console.log("出错" + JSON.stringify(response));
+                }
+            });
+        }
+
+
+        setInterval("getMsg()", 50);    // 轮询
+    </script>
+
+    <ul id="address-list" class="address-list">
+     <!--<li class="J_Addr J_MakePoint clearfix  J_DefaultAddr "  data-point-url="http://log.mmstat.com/buy.1.20">-->
+ <!--<s class="J_Marker marker"></s>-->
+ <!--<span class="marker-tip">寄送至</span>-->
+   <!--<div class="address-info">-->
+ <!--<a href="#" class="J_Modify modify J_MakePoint" data-point-url="http://log.mmstat.com/buy.1.21">修改本地址</a>-->
+ <!--<input name="address"-->
+ <!--class="J_MakePoint "-->
+ <!--type="radio"-->
+ <!--value="674944241"-->
+ <!--id="addrId_674944241"-->
+ <!--data-point-url="http://log.mmstat.com/buy.1.20"-->
+ <!--ah:params="id=674944241^^stationId=0^^address=湖北民族学院（信息工程学院）  男生宿舍楼5栋102^^postCode=445000^^addressee=朱万雄^^phone=^^mobile=18727717260^^areaCode=422801"-->
+  <!--checked="checked" >-->
+ <!--<label for="addrId_674944241" class="user-address">-->
+         <!--湖北省 恩施土家族苗族自治州 恩施市 湖北民族学院（信息工程学院）  男生宿舍楼235栋2323102 (某某 收) <em>18427717260</em>-->
+   <!--</label>-->
+ <!--<em class="tip" style="display: none">默认地址</em>-->
+ <!--<a class="J_DefaultHandle set-default J_MakePoint" href="/auction/update_address_selected_status.htm?addrid=674944241" style="display: none" data-point-url="http://log.mmstat.com/buy.1.18">设置为默认收货地址</a>-->
+ <!--</div>-->
+     <!--</li>-->
+     <!--<li class="J_Addr J_MakePoint clearfix"-->
+ <!--data-point-url="http://log.mmstat.com/buy.1.20" >-->
+ <!--<s class="J_Marker marker"></s>-->
+ <!--<span class="marker-tip">寄送至</span>-->
+   <!--<div class="address-info">-->
+ <!--<a href="#" class="J_Modify modify J_MakePoint" data-point-url="#">修改本地址</a>-->
+ <!--<input name="address"-->
+ <!--class="J_MakePoint"-->
+ <!--type="radio"-->
+ <!--value="594209677"-->
+ <!--id="addrId_594209677"-->
+ <!--data-point-url="#"-->
+ <!--ah:params="#"-->
+ <!--&gt;-->
+ <!--<label for="addrId_594209677" class="user-address">-->
+       <!--湖北省 恩施土家族苗族自治州 恩施市 某某某 (某某某 收) <em>1342407681</em></label><em class="tip" style="display: none">默认地址</em>-->
+   <!--<a class="J_DefaultHandle set-default J_MakePoint" style="display: none" data-point-url="#" href="#">设置为默认收货地址</a>-->
+ <!--</div>-->
+   <!--</li>-->
+     </ul>
+<ul id="J_MoreAddress" class="address-list hidden">
+
+ </ul>
+
+<div class="address-bar">
+ <a href="#" class="new J_MakePoint" id="J_NewAddressBtn" data-target="#smyModal" data-toggle="modal">使用新地址</a>
+
+ </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="smyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+        <div class="modal-dialog" style="width: 400px;height: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加收货地址
+                    </h4>
+                </div>
+                <br class="modal-body">
+                    <!--  控制div的大小，核心控制 col-sm控制占几列，col-sm-offset控制从左开始，偏移几列 -->
+                    <div class="input-group col-sm-10 col-sm-offset-1">
+                        <!--<span class="input-group-addon">手机号码:</span>-->
+                        <input type="text" class="form-control" id="myuser" placeholder="收货人">
+                    </div>
+                    <br>
+                    <div class="input-group col-sm-10 col-sm-offset-1">
+                        <input type="text" id="sjhm" class="form-control" placeholder="手机号码">
+                    </div>
+                    <br>
+                    <div class="input-group col-sm-10 col-sm-offset-1">
+                        <input type="text" id="szdq" class="form-control" placeholder="所在地区">
+                    </div>
+                </br>
+                    <div class="input-group col-sm-10 col-sm-offset-1">
+                        <input type="text" id="xxdz" class="form-control" placeholder="详细地址">
+                    </div>
+                    <br>
+                <div class="modal-footer">
+                    <button type="button" id="bc" class="btn btn-default" data-dismiss="modal">
+                        保存
+                    </button>
+                    <button id="mybutton"  type="button" class="btn btn-primary">
+                        返回
+                    </button>
+                </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</form>
+</div>
+<form id="J_Form" name="J_Form" action="/pay2Servlet" method="post">
+    <input type="hidden" name="arr" id="arr" />
+    <input type="hidden" name="zongjia" id="zongjia" />
+    <input type="hidden" name="shouhuodizhi" id="shouhuodizhi" />
+
+    <input name='_tb_token_' type='hidden' value='IZpONoL2bm'>
+ <input type="hidden" name="action" value="order/confirmOrderAction" />
+ <input type="hidden" name="event_submit_do_confirm" value="1" />
+ <input type="hidden" id="J_InsuranceDatas" name="insurance_datas" value="" />
+ <input type="hidden" id="J_InsuranceParamCheck" name="insurance_param_check" value="" />
+ <input type="hidden" name="" id="J_checkCodeUrl" value="/auction/order/check_code.htm"/>
+   <input type="hidden"   name="need_not_split_sellers"  value="" />
+   <input type="hidden"   name="from"  value="cart" />
+   <input type="hidden"   name="cnData"  value="" />
+   <input type="hidden"   name="shop_id"  value="0"  class="J_FareParam" />
+   <input type="hidden"   name="cartShareTag"  value="" />
+   <input type="hidden"   name="flushingPictureServiceId"  value="" />
+   <input type="hidden"  id="J_channelUrl"   name="channel"  value="no-detail"  class="J_FareParam" />
+   <input type="hidden"   name="cinema_id"  value="" />
+   <input type="hidden"  id="item"   name="item"  value="35612993875_19614514619_1_31175333266_1704508670_0_0_0_cartCreateTime~1380269540000" />
+   <input type="hidden"  id="cartId"   name="cartId"  value="35612993875" />
+   <input type="hidden"  id="verticalParams"   name="verticalParams"  value="" />
+   <input type="hidden"   name="cross_shop_ids"  value="" />
+   <input type="hidden"   name="tmall_cross_shop_ids"  value="NULL" />
+   <input type="hidden"   name="buyer_from"  value="cart"  class="J_FareParam" />
+   <input type="hidden"   name="tbsc_channel_id"  value="0" />
+   <input type="hidden"   name="checkCodeIds"  value="35612993875_19614514619_1_31175333266_1704508670_0_0_0_cartCreateTime~1380269540000" />
+   <input type="hidden"  id="J_OrderInfoString"   name="orderInfoString"  value="1704508670:2:19614514619:31175333266:" />
+   <input type="hidden"  id="J_OrderInfoStringForCod"   name="orderInfoStringForCod"  value="1704508670_2,19614514619:31175333266:35612993875" />
+   <input type="hidden"   name="encryptString"  value="0A04F3D8F7EEDC813AFF8711BE47B9E5E96F6E86A391A4C2" />
+   <input type="hidden"   name="secondDivisionCode"  value="422801" />
+   <input type="hidden"   name="use_cod"  value="false"  class="J_FareParam" />
+   <input type="hidden"   name="1704508670:2|seq"  value="b_47285539868" />
+   <input type="hidden"   name="n_area"  value="422801" />
+   <input type="hidden"   name="n_city"  value="422800" />
+   <input type="hidden"   name="n_prov"  value="420000" />
+   <input type="hidden"   name="n_state"  value="0" />
+   <input type="hidden"   name="n_country"  value="1" />
+   <input type="hidden"  id="defaultId"   name="defaultId"  value="674944241" />
+   <input type="hidden"   name="postCode"  value="445000" />
+   <input type="hidden"   name="deliverAddr"  value="湖北民族学院（信息工程学院）  男生宿舍楼5栋102" />
+   <input type="hidden"   name="addressId"  value="674944241" />
+   <input type="hidden"   name="deliverMobile"  value="18727717260" />
+   <input type="hidden"   name="deliverName"  value="朱万雄" />
+   <input type="hidden"   name="deliverPhone"  value="" />
+   <input type="hidden"  id="divisionCode"   name="divisionCode"  value="422801" />
+   <input type="hidden"  id="J_CodAction"   name="CodAction"  value="http://delivery.taobao.com/cod/cod_payway.htm" />
+   <input type="hidden"  id="event_submit_do_cod_switcher"   name="event_submit_do_cod_switcher"  value="1" />
+   <input type="hidden"  id="J_CodActionNew"   name="CodActionNew"  value="cod/codOrder_switcher_action" />
+   <input type="hidden"   name="guest_buyer"  value="false" />
+     <input type="hidden" id="J_sid" name="sid" value="32457704949"/>
+ <input type="hidden" id="J_gmtCreate" name="gmtCreate" value="1380270550897"/>
+ <input type="hidden" name="secStrNoCCode" value="6dd2fa5d614e2ced1d3189b0c2da09c0"/>
+
+ <input type="hidden" id="J_TransferWarehouseId" name="overseasWarehouseId" value="" />
+ <input type="hidden" id="J_TransferWarehouseDivisionId" name="overseasWarehouseDivisionId" value="" />
+
+   <input type="hidden" id="paramString" value="tuan_type=0&use_cod=false&shop_id=0&item=35612993875_19614514619_1_31175333266_1704508670_0_0_0_cartCreateTime~1380269540000&buyer_from=cart&isRepost=true&"/>
+ <input type="hidden" id="J_StepPayData" value='""'/>
+
+   <input type="hidden" name="unity" value="1" />
+
+<input type="hidden" name="buytraceid" value="" />
+<input type="hidden" name="activity" value="" />
+<input type="hidden" name="bankfrom" value="" />
+<input type="hidden" name="yfx315" value="" />
+
+<input type="hidden" id="J_channelUrl" name="channel" value="no-detail" class="J_FareParam"/>
+   <input type="hidden" id="J_actId" name="actId" value="" />
+   <input type="hidden" name="etkv" value=""/>
+   <input type="hidden" name="havePremium" value="false" />
+ <input type="hidden" name="cartShareTag" value="" />
+ <input type="hidden" name="flushingPictureServiceId" value="" />
+
+
+           <div>
+ <h3 class="dib">确认订单信息</h3>
+ <table cellspacing="0" cellpadding="0" class="order-table" id="J_OrderTable" summary="统一下单订单信息区域">
+ <caption style="display: none">统一下单订单信息区域</caption>
+ <thead>
+ <tr>
+ <th class="s-title">店铺宝贝<hr/></th>
+ <th class="s-price">单价(元)<hr/></th>
+ <th class="s-amount">数量<hr/></th>
+ <th class="s-agio">优惠方式(元)<hr/></th>
+ <th class="s-total">小计(元)<hr/></th>
+ </tr>
+ </thead>
+
+
+
+<tbody id="tby" data-spm="3" class="J_Shop" data-tbcbid="0" data-outorderid="47285539868"  data-isb2c="false" data-postMode="2" data-sellerid="1704508670">-->
+</tbody>
+
+
+
+
+     <tfoot>
+ <tr>
+ <td colspan="5">
+
+<div class="order-go" data-spm="4">
+<div class="J_AddressConfirm address-confirm">
+ <div class="kd-popup pop-back" style="margin-bottom: 40px;">
+ <div class="box">
+ <div class="bd">
+ <div class="point-in">
+
+   <em class="t">实付款：</em>  <span  class='price g_price '>
+ <span>&yen;</span><em class="style-large-bold-red"  id="J_ActualFee"  >630.00</em>
+  </span>
+</div>
+
+  <ul >
+ <li><em>寄送至:</em><span id="J_AddrConfirm" style="word-break: break-all;">
+   湖北省 恩施土家族苗族自治州 恩施市 湖北民族学院（信息工程学院）  男生宿舍楼235栋1234202
+   </span></li>
+ </ul>
+     </div>
+ </div>
+
+<div>
+         <a style="width: 90px" href="/html/shopcart.html"
+ class="back J_MakePoint" target="_top"
+ data-point-url="">返回购物车</a>
+       <!--<button id="J_Go" class=" btn-go"    tabindex="0" title="点击此按钮，提交订单。">提交订单</button>-->
+       <button id="J_Go" class=" btn-go"    tabindex="0" title="点击此按钮，提交订单。">提交订单</button>
+  </div>
+ </div>
+
+ <div class="J_confirmError confirm-error">
+ <div class="msg J_shopPointError" style="display: none;"><p class="error">积分点数必须为大于0的整数</p></div>
+ </div>
+
+
+ <div class="msg" style="clear: both;">
+ <p class="tips naked" style="float:right;padding-right: 0">若价格变动，请在提交订单后联系卖家改价，并查看已买到的宝贝</p>
+ </div>
+ </div>
+ </td>
+ </tr>
+ </tfoot>
+ </table>
+</div>
+
+
+
+
+ <input type="hidden" id="J_useSelfCarry" name="useSelfCarry" value="false" />
+ <input type="hidden" id="J_selfCarryStationId" name="selfCarryStationId" value="0" />
+ <input type="hidden" id="J_useMDZT" name="useMDZT" value="false" />
+ <input type="hidden" name="useNewSplit" value="true" />
+ <input type="hidden" id="J_sellerIds" name="allSellIds" value="1704508670" />
+</form>
+</div>
+
+<div id="footer"></div>
+</div>
+<div style="text-align:center;">
+</div>
+
+
+<script>
+
+
+
+    $(function () {
+
+
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+        }
+        var imgurl=getURLParameter('imgurl');
+        var ms=getURLParameter('ms');
+        var mc=getURLParameter('mc');
+        var end=getURLParameter('end');
+        var end2=getURLParameter('end2');
+        var jiage=getURLParameter('jiage');
+        var num=getURLParameter('num');
+        var url=getURLParameter('url');
+        var shangpinbianhao=getURLParameter('shangpinbianhao');
+        if(url=="/lijigoumai"){
+            var ee=
+                "<tr class=\"first\"><td colspan=\"1\"></td></tr>\n" +
+                "<tr class=\"shop blue-line\">\n" +
+                " <td colspan=\"1\" >\n" +
+                "商品名称：<a class=\"J_ShopName J_MakePoint\" target=\"_blank\" title=\"淘米魅\">"+mc+"</a>\n" +
+                " </td>\n" +
+                "</tr>\n" +
+                " <tr class=\"item\" data-lineid=\"19614514619:31175333266:35612993875\" data-pointRate=\"0\">\n" +
+                " <td class=\"s-title\">\n" +
+                "   <a href=\"#\" target=\"_blank\" title="+mc+" class=\"J_MakePoint\" data-point-url=\"http://log.mmstat.com/buy.1.5\">\n" +
+                "     <img src='/"+shangpinbianhao.substring(0,shangpinbianhao.indexOf("-"))+"/缩略图/0.jpg' class=\"itempic\"><span class=\"title J_MakePoint\" data-point-url=\"http://log.mmstat.com/buy.1.5\">"+ms+" </span></a>\n" +
+                "\n" +
+                "   <div class=\"props\">\n" +
+                "     <span>"+end+" </span>\n" +
+                "   <span>"+end2+"</span>\n" +
+                "         </div>\n" +
+                " <a title=\"消费者保障服务，卖家承诺商品如实描述\" href=\"#\" target=\"_blank\">\n" +
+                "<img src=\"http://img03.taobaocdn.com/tps/i3/T1bnR4XEBhXXcQVo..-14-16.png\"/>\n" +
+                "</a>\n" +
+                "    <div>\n" +
+                " <span style=\"color:gray;\">卖家承诺72小时内发货</span>\n" +
+                " </div>\n" +
+                "     </td>\n" +
+                " <td class=\"s-price\">\n" +
+                "   \n" +
+                "  <span class='price '>\n" +
+                " <em class=\"style-normal-small-black J_ItemPrice\"  >"+jiage+"</em>\n" +
+                "  </span>\n" +
+                "<input type=\"hidden\" name=\"costprice\" value=\"630.00\" class=\"J_CostPrice\" />\n" +
+                "</td>\n" +
+                " <td class=\"s-amount\" data-point-url=\"\">\n" +
+                "         <input type=\"hidden\" class=\"J_Quantity\" value="+num+" name=\"19614514619_31175333266_35612993875_quantity\"/>"+num+"\n" +
+                " \n" +
+                " </td>\n" +
+                " <td class=\"s-agio\">\n" +
+                "       <div class=\"J_Promotion promotion\" data-point-url=\"\">无优惠</div>\n" +
+                "   </td>\n" +
+                " <td class=\"s-total\">\n" +
+                "   \n" +
+                "   <span class='price '>\n" +
+                " <em class=\"style-normal-bold-red J_ItemTotal \"  >"+num*jiage+"</em>\n" +
+                "  </span>\n" +
+                "    <input id=\"furniture_service_list_b_47285539868\" type=\"hidden\" name=\"furniture_service_list_b_47285539868\"/>\n" +
+                " </td>\n" +
+                "</tr>\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "<tr class=\"item-service\">\n" +
+                " <td colspan=\"5\" class=\"servicearea\" style=\"display: none\"></td>\n" +
+                "</tr>\n" +
+                "\n" +
+                "<tr class=\"blue-line\" style=\"height: 2px;\"><td colspan=\"5\"></td></tr>\n" +
+                "<tr class=\"other other-line\">\n" +
+                " <td colspan=\"5\">\n" +
+                " <ul class=\"dib-wrap\">\n" +
+                " <li class=\"dib user-info\">\n" +
+                " <ul class=\"wrap\">\n" +
+                " <li>\n" +
+                "  <div class=\"field gbook\">\n" +
+                "   <label class=\"label\">给卖家留言：</label>\n" +
+                "   <textarea style=\"width:350px;height:80px;\" title=\"选填：对本次交易的补充说明（建议填写已经和卖家达成一致的说明）\" name=\"\"></textarea>\n" +
+                " </div>\n" +
+                "</li>\n" +
+                "   </ul>\n" +
+                " </li>\n" +
+                " <li class=\"dib extra-info\">\n" +
+                "\n" +
+                " <div class=\"shoparea\">\n" +
+                " <ul class=\"dib-wrap\">\n" +
+                " <li class=\"dib title\">店铺优惠：</li>\n" +
+                " <li class=\"dib sel\"><div class=\"J_ShopPromo J_Promotion promotion clearfix\" data-point-url=\"http://log.mmstat.com/buy.1.16\"></div></li>\n" +
+                " <li class=\"dib fee\">  <span class='price '>\n" +
+                " -<em class=\"style-normal-bold-black J_ShopPromo_Result\"  >0.00</em>\n" +
+                "  </span>\n" +
+                "</li>\n" +
+                " </ul>\n" +
+                " </div>\n" +
+                "\n" +
+                " <div class=\"shoppointarea\"></div>\n" +
+                "\n" +
+                "   <div class=\"farearea\">\n" +
+                " <ul class=\"dib-wrap J_farearea\">\n" +
+                " <li class=\"dib title\">运送方式：</li>\n" +
+                " <li class=\"dib sel\" data-point-url=\"http://log.mmstat.com/jsclick?cache=*&tyxd=wlysfs\">\n" +
+                " <input type=\"hidden\" name=\"1704508670:2|actualPaidFee\" value=\"0\" class=\"J_ActualPaidFee\" />\n" +
+                " <input type=\"hidden\" name=\"1704508670:2|codAllowMultiple\" value=\"true\"/>\n" +
+                " <input type=\"hidden\" name=\"1704508670:2|codSellerFareFee\" value=\"\" class=\"J_CodSellerFareFee\"/>\n" +
+                " <input type=\"hidden\" name=\"1704508670:2|codServiceFeeRate\" value=\"\" class=\"J_CodServiceFeeRate\"/>\n" +
+                " <input type=\"hidden\" name=\"1704508670:2|codPostFee\" value=\"0\" class=\"J_CodPostFee\"/>\n" +
+                "   <select id='op' name=\"1704508670:2|post\" class=\"J_Fare\">\n" +
+                "     <option data-fare=\"1500\" value=\" 2 \" data-codServiceType=\"2\" data-level=\"\"  selected=\"selected\"  >\n" +
+                " 免邮费 00.00元 \n" +
+                " </option>\n" + "     <option data-fare=\"1500\" value=\"0\" data-codServiceType=\"2\" data-level=\"\"   >\n" +
+                " 快递 15.00元 \n" +
+                " </option>\n" +
+                "       <option data-fare=\"2500\" value=\" 7 \" data-codServiceType=\"7\" data-level=\"\"  >\n" +
+                " EMS 25.00元 \n" +
+                " </option>\n" +
+                "       <option data-fare=\"1500\" value=\" 1 \" data-codServiceType=\"1\" data-level=\"\"  >\n" +
+                " 平邮 15.00元 \n" +
+                " </option>\n" +
+                "     </select>\n" +
+                "   <em tabindex=\"0\" class=\"J_FareFree\" style=\"display: none\">免邮费</em>\n" +
+                "     </li>\n" +
+                " <li class=\"dib fee\">  <span class='price '>\n" +
+                "  </span>\n" +
+                "</li>\n" +
+                " </ul>\n" +
+                " </div>\n" +
+                "   <div class=\"extra-area\">\n" +
+                " <ul class=\"dib-wrap\">\n" +
+                " <li class=\"dib title\">发货时间：</li>\n" +
+                " <li class=\"dib content\">卖家承诺订单在买家付款后，72小时内<a href=\"#\">发货</a></li>\n" +
+                " </ul>\n" +
+                " </div>\n" +
+                "   \n" +
+                "   <div class=\"servicearea\" style=\"display: none\"></div>\n" +
+                " </li>\n" +
+                " </ul>\n" +
+                " </td>\n" +
+                "</tr>\n" +
+                "\n" +
+                "<tr class=\"shop-total blue-line\">\n" +
+                " <td colspan=\"5\">店铺合计(<span class=\"J_Exclude\" style=\"display: none\">不</span>含运费<span class=\"J_ServiceText\" style=\"display: none\">，服务费</span>)：\n" +
+                "   <span class='price g_price '>\n" +
+                " <span>&yen;</span><em class=\"style-middle-bold-red J_ShopTotal\" id='ss' >"+jiage*num+"</em>\n" +
+                "  </span>\n" +
+                "  <input type=\"hidden\" name=\"1704508670:2|creditcard\" value=\"false\" />\n" +
+                "<input type=\"hidden\" id=\"J_IsLadderGroup\" name=\"isLadderGroup\" value=\"false\"/>\n" +
+                "\n" +
+                "   </td>\n" +
+                "</tr>\n" ;
+
+            $("#tby").append(ee)
+
+            var s=$("#ss").html();
+            $("#J_ActualFee").text(s);
+
+
+            var s= $("#arr").val(shangpinbianhao);
+            var ss= $("#zongjia").val($("#J_ActualFee").html());
+            var f=$("#J_AddrConfirm").html();
+            hh=$("input[name='address']:checked").attr("mytype");
+           var sss= $("#shouhuodizhi").val(hh);
+
+            // var sss=$("#shouhuodizhi").val(f);
+
+
+
+
+        }else{
+
+            function getURLParameter(name) {
+                return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+            }
+            var arr=getURLParameter('arr');
+            var zongjia=getURLParameter('zongjia');
+
+            $.ajax({
+                url: "/shangPingJieShuan_zheng",    // 请求路径
+                type: "post",           // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    arr:arr.toString()
+
+                },
+                success: function (response) {
+                    var num=0;
+                    for (var i=0;i<response.jiesuan.length;i++){
+                        var tb=
+                            "<tr class=\"first\"><td colspan=\"1\"></td></tr>\n" +
+                            "<tr class=\"shop blue-line\">\n" +
+                            " <td colspan=\"1\" >\n" +
+                            "商品名称：<a class=\"J_ShopName J_MakePoint\" target=\"_blank\" title=\"淘米魅\">"+response.jiesuan[i].ShangPinMingChen+"</a>\n" +
+                            " </td>\n" +
+                            "</tr>\n" +
+                            " <tr class=\"item\" data-lineid=\"19614514619:31175333266:35612993875\" data-pointRate=\"0\">\n" +
+                            " <td class=\"s-title\">\n" +
+                            "   <a href=\"#\" target=\"_blank\" title="+response.jiesuan[i].ShangPinMiaoShu+" class=\"J_MakePoint\" data-point-url=\"http://log.mmstat.com/buy.1.5\">\n" +
+                            "     <img src="+response.jiesuan[i].imgurl+" class=\"itempic\"><span class=\"title J_MakePoint\" data-point-url=\"http://log.mmstat.com/buy.1.5\">"+response.jiesuan[i].ShangPinMiaoShu+" </span></a>\n" +
+                            "\n" +
+                            "   <div class=\"props\">\n" +
+                            "     <span>"+response.jiesuan[i].ShangPinGuiGe1+" </span>\n" +
+                            "   <span>"+response.jiesuan[i].ShangPinGuiGe2+"</span>\n" +
+                            "         </div>\n" +
+                            " <a title=\"消费者保障服务，卖家承诺商品如实描述\" href=\"#\" target=\"_blank\">\n" +
+                            "<img src=\"http://img03.taobaocdn.com/tps/i3/T1bnR4XEBhXXcQVo..-14-16.png\"/>\n" +
+                            "</a>\n" +
+                            "    <div>\n" +
+                            " <span style=\"color:gray;\">卖家承诺72小时内发货</span>\n" +
+                            " </div>\n" +
+                            "     </td>\n" +
+                            " <td class=\"s-price\">\n" +
+                            "   \n" +
+                            "  <span class='price '>\n" +
+                            " <em class=\"style-normal-small-black J_ItemPrice\"  >"+response.jiesuan[i].ShangPinJiaGe+"</em>\n" +
+                            "  </span>\n" +
+                            "<input type=\"hidden\" name=\"costprice\" value=\"630.00\" class=\"J_CostPrice\" />\n" +
+                            "</td>\n" +
+                            " <td class=\"s-amount\" data-point-url=\"\">\n" +
+                            "         <input type=\"hidden\" class=\"J_Quantity\" value="+response.jiesuan[i].ShangPinShuLiang+" name=\"19614514619_31175333266_35612993875_quantity\"/>"+response.jiesuan[i].ShangPinShuLiang+"\n" +
+                            " \n" +
+                            " </td>\n" +
+                            " <td class=\"s-agio\">\n" +
+                            "       <div class=\"J_Promotion promotion\" data-point-url=\"\">无优惠</div>\n" +
+                            "   </td>\n" +
+                            " <td class=\"s-total\">\n" +
+                            "   \n" +
+                            "   <span class='price '>\n" +
+                            " <em class=\"style-normal-bold-red J_ItemTotal \"  >"+(response.jiesuan[i].ShangPinShuLiang)*(response.jiesuan[i].ShangPinJiaGe)+"</em>\n" +
+                            "  </span>\n" +
+                            "    <input id=\"furniture_service_list_b_47285539868\" type=\"hidden\" name=\"furniture_service_list_b_47285539868\"/>\n" +
+                            " </td>\n" +
+                            "</tr>\n" +
+                            "\n" +
+                            "\n" +
+                            "\n" +
+                            "<tr class=\"item-service\">\n" +
+                            " <td colspan=\"5\" class=\"servicearea\" style=\"display: none\"></td>\n" +
+                            "</tr>\n" +
+                            "\n" +
+                            "<tr class=\"blue-line\" style=\"height: 2px;\"><td colspan=\"5\"></td></tr>\n" +
+                            "<tr class=\"other other-line\">\n" +
+                            " <td colspan=\"5\">\n" +
+                            " <ul class=\"dib-wrap\">\n" +
+                            " <li class=\"dib user-info\">\n" +
+                            " <ul class=\"wrap\">\n" +
+                            " <li>\n" +
+                            "  <div class=\"field gbook\">\n" +
+                            "   <label class=\"label\">给卖家留言：</label>\n" +
+                            "   <textarea style=\"width:350px;height:80px;\" title=\"选填：对本次交易的补充说明（建议填写已经和卖家达成一致的说明）\" name=\"\"></textarea>\n" +
+                            " </div>\n" +
+                            "</li>\n" +
+                            "   </ul>\n" +
+                            " </li>\n" +
+                            " <li class=\"dib extra-info\">\n" +
+                            "\n" +
+                            " <div class=\"shoparea\">\n" +
+                            " <ul class=\"dib-wrap\">\n" +
+                            " <li class=\"dib title\">店铺优惠：</li>\n" +
+                            " <li class=\"dib sel\"><div class=\"J_ShopPromo J_Promotion promotion clearfix\" data-point-url=\"http://log.mmstat.com/buy.1.16\"></div></li>\n" +
+                            " <li class=\"dib fee\">  <span class='price '>\n" +
+                            " -<em class=\"style-normal-bold-black J_ShopPromo_Result\"  >0.00</em>\n" +
+                            "  </span>\n" +
+                            "</li>\n" +
+                            " </ul>\n" +
+                            " </div>\n" +
+                            "\n" +
+                            " <div class=\"shoppointarea\"></div>\n" +
+                            "\n" +
+                            "   <div class=\"farearea\">\n" +
+                            " <ul class=\"dib-wrap J_farearea\">\n" +
+                            " <li class=\"dib title\">运送方式：</li>\n" +
+                            " <li class=\"dib sel\" data-point-url=\"http://log.mmstat.com/jsclick?cache=*&tyxd=wlysfs\">\n" +
+                            " <input type=\"hidden\" name=\"1704508670:2|actualPaidFee\" value=\"0\" class=\"J_ActualPaidFee\" />\n" +
+                            " <input type=\"hidden\" name=\"1704508670:2|codAllowMultiple\" value=\"true\"/>\n" +
+                            " <input type=\"hidden\" name=\"1704508670:2|codSellerFareFee\" value=\"\" class=\"J_CodSellerFareFee\"/>\n" +
+                            " <input type=\"hidden\" name=\"1704508670:2|codServiceFeeRate\" value=\"\" class=\"J_CodServiceFeeRate\"/>\n" +
+                            " <input type=\"hidden\" name=\"1704508670:2|codPostFee\" value=\"0\" class=\"J_CodPostFee\"/>\n" +
+                            "   <select id='op' name=\"1704508670:2|post\" class=\"J_Fare\">\n" +
+                            "     <option data-fare=\"1500\" value=\" 2 \" data-codServiceType=\"2\" data-level=\"\"  selected=\"selected\"  >\n" +
+                            " 免邮费 00.00元 \n" +
+                            " </option>\n" + "     <option data-fare=\"1500\" value=\"0\" data-codServiceType=\"2\" data-level=\"\"   >\n" +
+                            " 快递 15.00元 \n" +
+                            " </option>\n" +
+                            "       <option data-fare=\"2500\" value=\" 7 \" data-codServiceType=\"7\" data-level=\"\"  >\n" +
+                            " EMS 25.00元 \n" +
+                            " </option>\n" +
+                            "       <option data-fare=\"1500\" value=\" 1 \" data-codServiceType=\"1\" data-level=\"\"  >\n" +
+                            " 平邮 15.00元 \n" +
+                            " </option>\n" +
+                            "     </select>\n" +
+                            "   <em tabindex=\"0\" class=\"J_FareFree\" style=\"display: none\">免邮费</em>\n" +
+                            "     </li>\n" +
+                            " <li class=\"dib fee\">  <span class='price '>\n" +
+                            "  </span>\n" +
+                            "</li>\n" +
+                            " </ul>\n" +
+                            " </div>\n" +
+                            "   <div class=\"extra-area\">\n" +
+                            " <ul class=\"dib-wrap\">\n" +
+                            " <li class=\"dib title\">发货时间：</li>\n" +
+                            " <li class=\"dib content\">卖家承诺订单在买家付款后，72小时内<a href=\"#\">发货</a></li>\n" +
+                            " </ul>\n" +
+                            " </div>\n" +
+                            "   \n" +
+                            "   <div class=\"servicearea\" style=\"display: none\"></div>\n" +
+                            " </li>\n" +
+                            " </ul>\n" +
+                            " </td>\n" +
+                            "</tr>\n" +
+                            "\n" +
+                            "<tr class=\"shop-total blue-line\">\n" +
+                            " <td colspan=\"5\">店铺合计(<span class=\"J_Exclude\" style=\"display: none\">不</span>含运费<span class=\"J_ServiceText\" style=\"display: none\">，服务费</span>)：\n" +
+                            "   <span class='price g_price '>\n" +
+                            " <span>&yen;</span><em class=\"style-middle-bold-red J_ShopTotal\" id='ss' >"+(response.jiesuan[i].ShangPinShuLiang)*(response.jiesuan[i].ShangPinJiaGe)+"</em>\n" +
+                            "  </span>\n" +
+                            "  <input type=\"hidden\" name=\"1704508670:2|creditcard\" value=\"false\" />\n" +
+                            "<input type=\"hidden\" id=\"J_IsLadderGroup\" name=\"isLadderGroup\" value=\"false\"/>\n" +
+                            "\n" +
+                            "   </td>\n" +
+                            "</tr>\n" ;
+
+                        $("#tby").append(tb)
+                        // var s=parseInt($(".style-middle-bold-red").html());
+                        // num=num+s;
+                        // alert("num"+s)
+
+
+                    }
+                    //订单总价
+
+                    var hh = new Array();
+                    var s=0;
+                    $(".style-middle-bold-red").each(function (key,value) {
+                        s=s+ parseInt($(this).html());
+                    })
+
+                    $("#J_ActualFee").text(s);
+
+
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+
+            });
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        //查询收货地址
+
+        var h="";
+        var hh="";
+        $.ajax({
+            url: "/selectdizhi_zheng",    // 请求路径
+            type: "post",           // 请求的方式，不区分大小写
+            cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+            },
+            success: function (response) {
+                for (var i=0;i<response.dizhi.length;i++){
+                    var s=response.dizhi[i].SuoZaiDiQu+" "+response.dizhi[i].XiangXiDiZhi+"  "+response.dizhi[i].ShouHuoRen+"  "+response.dizhi[i].LianXiDianHua;
+                    var dz=response.dizhi[i].SuoZaiDiQu+" "+response.dizhi[i].XiangXiDiZhi;
+                    var li="<li class=\"J_Addr J_MakePoint clearfix  J_DefaultAddr \"  data-point-url=\"http://log.mmstat.com/buy.1.20\">\n" +
+                        "   <div class=\"address-info\"  >\n" +
+                        " <input style='margin: -8px 0 0'  mytype='"+response.dizhi[i].id+"' id='checks' value='"+s+"' name=\"address\"  \n" +
+                        " class=\"J_MakePoint \"\n" +
+                        " type=\"radio\"\n" +
+                        "  checked=\"checked\" >\n" +
+                        " <label  for=\"addrId_674944241\" class=\"user-address\">\n" +
+                        "  "+s+"    \n"+
+                        "   </label>\n" +
+                        " </div>\n" +
+                        "     </li>\n";
+                    $("#address-list").append(li)
+                }
+                // h=$("input[name='address']:checked").val();
+                // var s=$("#J_AddrConfirm").html(h);
+                //
+                h=$("input[name='address']:checked").val();
+                hh=$("input[name='address']:checked").attr("mytype");
+
+                $("#shouhuodizhi").val(hh);
+
+
+                $("#J_AddrConfirm").html(h);
+
+
+
+                $("input[name='address']").click(function () {
+                    h=$("input[name='address']:checked").val();
+                    hh=$("input[name='address']:checked").attr("mytype");
+                    $("#shouhuodizhi").val(hh);
+
+
+                    $("#J_AddrConfirm").html(h);
+
+                });
+
+
+            },
+            error: function (response) {
+                alert("出错" + response);
+            }
+
+        });
+
+
+
+        $("#J_Go").click(function () {
+           var s= $("#arr").val(arr.toString());
+           var ss= $("#zongjia").val($("#J_ActualFee").html());
+
+
+        });
+
+
+
+
+            $("#bc").click(function () {
+            var myuser= $("#myuser").val();
+            var sjhm= $("#sjhm").val();
+            var szdq= $("#szdq").val();
+            var xxdz= $("#xxdz").val();
+            var s=szdq+"  "+xxdz+"  "+myuser+"  "+sjhm;
+            var li="<li class=\"J_Addr J_MakePoint clearfix  J_DefaultAddr \"  data-point-url=\"http://log.mmstat.com/buy.1.20\">\n" +
+                "   <div class=\"address-info\">\n" +
+                " <input  style='margin: -8px 0 0' value="+s+"  name=\"address\" \n" +
+                " class=\"J_MakePoint \"\n" +
+                " type=\"radio\"\n" +
+                "  checked=\"checked\" >\n" +
+                " <label for=\"addrId_674944241\" class=\"user-address\">\n" +
+                "  "+s+"    \n"+
+                "   </label>\n" +
+                " </div>\n" +
+                "     </li>\n";
+            $("#address-list").append(li)
+
+            var ss=$("#J_AddrConfirm").html(s);
+
+            $.ajax({
+                url: "/zengjiadizhi_zheng",    // 请求路径
+                type: "post",           // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    myuser:myuser,
+                    sjhm:sjhm,
+                    szdq:szdq,
+                    xxdz:xxdz
+
+                },
+                success: function (response) {
+
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+
+            });
+            });
+
+
+    })
+
+
+
+</script>
+</body>
+</html>

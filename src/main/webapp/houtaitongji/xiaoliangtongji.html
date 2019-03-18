@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>starShopping后台管理页面</title>
+    <!--<link rel="stylesheet" href="/layui/css/layui.css">-->
+    <!--<script src="/layui/layui.js"></script>-->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../layui/layui.js"></script>
+    <!--<script src="../laydate/laydate.js" charset="utf-8"></script>-->
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../laydate/theme/default/laydate.css" media="all">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+
+
+</head>
+<body class="layui-layout-body">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!--  modal-lg和modal-sm控制大小  不使用这两个属性是默认大小  如果觉得默认的三种设置不够，可以自己书写style width-->
+    <div class="modal-dialog" style="width: 700px">
+        <style>.modal-backdrop {
+            z-index: 0;
+        }</style>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    聊天窗口
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="mydiv" class="show-chat-content"
+                     style="width: 600px;height: 400px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+            </div>
+            <div class="modal-footer">
+                <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                      class="control"></textarea>
+                    <button id="sendButton">发送</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">后台管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">销量统计</a></li>
+            <!--<li class="layui-nav-item"  id="kefuguanli">-->
+            <!--<a href="javascript:;">客服管理</a>-->
+            <!--<dl class="layui-nav-child">-->
+            <!--<dd><a href="/houtaiyuangong/YuanGong.html">客服情况列表</a></dd>-->
+            <!--<dd><a href="/houtaiyuangong/KeFuCaoZuoRiZhi.html">客服操作日志</a></dd>-->
+            <!--</dl>-->
+            <!--</li>-->
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a data-toggle="modal" data-target="#myModal" id="kefu">客户消息<span class="badge"
+                                                                                                         id="lianxi"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a style="text-decoration:none" onclick="member_show('客服个人信息','kefu-show.html','1','360','400')"
+                   href="javascript:;" title="客服个人信息">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    <span id="xingMing"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">待添加</a></dd>
+                    <dd><a href="">待添加</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="../denglu.html">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">订单管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="../houtaidingdan/DingDanGuanLi.html">订单详列</a></dd>
+                        <dd><a href="../houtaidingdan/LieBiaoTongJi.html">订单统计列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="../houtaikehuguanli/yonghuxinxiguanli.html">客户信息列表</a></dd>
+                        <dd><a href="../houtaikehuguanli/KeHuCaoZuoRiZhi.html">客户操作日志</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed" id="kefuguanli">
+                    <a href="javascript:;">客服管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/houtaiyuangong/YuanGong.html">客服情况列表</a></dd>
+                        <dd><a href="/houtaiyuangong/KeFuCaoZuoRiZhi.html">客服操作日志</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="../houtaishangpinguanli/select.html">后台商品管理</a></li>
+                <li class="layui-nav-item"><a href="../houtaitongji/xiaoliangtongji.html">销量查询</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+
+        <div class="demoTable">
+            起始时间：
+            <div class="layui-inline">
+                <input class="layui-input" name="startime" id="startime" autocomplete="off">
+            </div>
+            结束时间：
+            <div class="layui-inline">
+                <input class="layui-input" name="endtime" id="endtime" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload" id="xiangxi" value="1">详细查询</button>
+            <script src="../layui/layui.js" charset="utf-8"></script>
+
+
+            <script>
+                layui.use('laydate', function () {
+                    var laydate = layui.laydate;
+                    // lay('#version').html('-v'+ laydate.v);
+
+                    //执行一个laydate实例
+                    laydate.render({
+                        elem: '#startime' //指定元素
+                    });
+                    laydate.render({
+                        elem: '#endtime' //指定元素
+                    });
+                })
+            </script>
+        </div>
+        <div class="layui-btn-container">
+            <button class="layui-btn " data-type="reload" id="day" value="2">日统计</button>
+            <button class="layui-btn " data-type="reload" id="week" value="3">周统计</button>
+            <button class="layui-btn " data-type="reload" id="month" value="4">月统计</button>
+            <button class="layui-btn " data-type="reload" id="quarter" value="5">季统计</button>
+            <button class="layui-btn " data-type="reload" id="year" value="6">年统计</button>
+            <button class="layui-btn " id="test2">柱状图</button>
+            <div id="speedChart" style="display: none;">
+                <div id="speedChartMain" style="width: 600px; height: 400px;">
+                </div>
+                <script type="text/javascript" src="../js/echarts.common.min.js"></script>
+            </div>
+            <div id="dfd">
+                <span>成本利润柱状图</span>
+                <p>成本利润柱状图</p>
+            </div>
+        </div>
+
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+
+        <script type="text/html" id="toolbarDemo">
+            </script>
+        <script>
+            $(function () {
+                function ff() {
+                    $.ajax({
+                        url: "/xiaoLiangTongJiServlet",
+                        type: "post",
+                        cache: false,
+                        datatype: "json",
+                        data: {
+                            ac: "1"
+                        },
+                        success: function (response) {
+                            $("#xingMing").html(response.yongHuMing);
+                            if (response.xingMing != '大老板') {
+                                $("#kefuguanli").css("display", "none");
+                            }
+
+                        }
+                    });
+                }
+
+                ff();
+            });
+        </script>
+        <script>
+            layui.use('table', function () {
+                var table = layui.table;
+                table.render({
+                    elem: '#test'
+                    , method: 'post'
+                    , url: '/xiaoLiangTongJiServlet'
+                    , toolbar: '#toolbarDemo'
+                    , title: '用户数据表'
+
+                    , totalRow: true
+                    , cols: [[
+                        {
+                            field: 'bianhao',
+                            title: '商品编号',
+                            width: 150,
+                            fixed: 'left',
+                            unresize: true,
+                            sort: true,
+                            totalRowText: '合计'
+                        }
+                        , {field: 'mingchen', title: '商品名', width: 120, edit: 'text'}
+                        , {field: 'chengbenjia', title: '成本价', width: 90, sort: true}
+                        , {field: 'jiage', title: '单价', width: 90, sort: true}
+                        , {field: 'shiduan', title: '时段', width: 360, edit: 'text'}
+                        , {field: 'number', title: '销量', width: 90, sort: true}
+                        , {field: 'chengben', title: '总成本', width: 150, sort: true, totalRow: true}
+                        , {field: 'xiaoshoue', title: '销量额', width: 150, sort: true, totalRow: true}
+                        , {field: 'lirun', title: '利润', width: 150, sort: true, totalRow: true}
+                    ]]
+                    , id: 'testReload'
+                    , page: true
+                });
+                var $ = layui.$, active1 = {
+                    reload: function () {
+                        var startime = $('#startime');
+                        var endtime = $('#endtime');
+                        var xiangxi = $('#xiangxi');
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                action: xiangxi.val(),
+                                startime: startime.val(),
+                                endtime: endtime.val()
+                            }
+                        });
+                    }
+                };
+                var $ = layui.$, active2 = {
+                    reload: function () {
+                        var day = $('#day');
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                action: day.val(),
+                            }
+                        });
+                    }
+                };
+                var $ = layui.$, active3 = {
+                    reload: function () {
+                        var week = $('#week');
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                action: week.val(),
+                            }
+                        });
+                    }
+                };
+                var $ = layui.$, active4 = {
+                    reload: function () {
+                        var month = $('#month');
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                action: month.val(),
+                            }
+                        });
+                    }
+                };
+                var $ = layui.$, active5 = {
+                    reload: function () {
+                        var quarter = $('#quarter');
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                action: quarter.val(),
+                            }
+                        });
+                    }
+                };
+                var $ = layui.$, active6 = {
+                    reload: function () {
+                        var year = $('#year');
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1
+                            },
+                            where: {
+                                action: year.val(),
+                            }
+                        });
+                    }
+                };
+
+
+                $('.demoTable .layui-btn').on('click', function () {
+                    var type = $(this).data('type');
+                    active1[type] ? active1[type].call(this) : '';
+                });
+                $('#day').on('click', function () {
+                    var type = $(this).data('type');
+                    active2[type] ? active2[type].call(this) : '';
+                });
+                $('#week').on('click', function () {
+                    var type = $(this).data('type');
+                    active3[type] ? active3[type].call(this) : '';
+                });
+                $('#month').on('click', function () {
+                    var type = $(this).data('type');
+                    active4[type] ? active4[type].call(this) : '';
+                });
+                $('#quarter').on('click', function () {
+                    var type = $(this).data('type');
+                    active5[type] ? active5[type].call(this) : '';
+                });
+                $('#year').on('click', function () {
+                    var type = $(this).data('type');
+                    active6[type] ? active6[type].call(this) : '';
+                });
+            });
+        </script>
+        <script>
+
+            var myChart = echarts.init(document.getElementById('speedChartMain'));
+            // 显示标题，图例和空的坐标轴
+            myChart.setOption({
+                title: {
+                    text: '成本利润柱状图'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['成本,利润']
+                },
+                xAxis: {
+                    data: []
+                },
+                yAxis: {},
+                series: [{
+                    name: '成本',
+                    type: 'bar',
+                    stack: '总量',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight'
+                        }
+                    },
+                    data: []
+                },
+                    {
+                        name: '利润',
+                        type: 'bar',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'insideRight'
+                            }
+                        },
+                        data: []
+                    }]
+            });
+
+            myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+            $("#test2").click(function () {
+                var mingchen = [];    //类别数组（实际用来盛放X轴坐标值）
+                var chengben = [];    //销量数组（实际用来盛放Y坐标值）
+                var lirun = [];
+                $.ajax({
+                    type: "post",
+                    async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                    url: "/xiaoLiangTongJiServlet",    //请求发送到TestServlet处
+                    data: {
+                        tu: 2
+                    },
+                    dataType: "json",        //返回数据形式为json
+                    success: function (result) {
+                        //请求成功时执行该函数内容，result即为服务器返回的json对象
+                        if (result) {
+                            for (var i = 0; i < result.data.length; i++) {
+                                mingchen.push(result.data[i].mingchen);    //挨个取出类别并填入类别数组
+                            }
+                            for (var i = 0; i < result.data.length; i++) {
+                                chengben.push(result.data[i].chengben);    //挨个取出销量并填入销量数组
+                            }
+                            for (var i = 0; i < result.data.length; i++) {
+                                lirun.push(result.data[i].lirun);    //挨个取出销量并填入销量数组
+                            }
+                            myChart.hideLoading();    //隐藏加载动画
+                            myChart.setOption({        //加载数据图表
+                                xAxis: {
+                                    data: mingchen
+                                },
+                                series: [{
+                                    // 根据名字对应到相应的系列
+                                    name: '成本',
+                                    data: chengben
+                                }, {
+                                    // 根据名字对应到相应的系列
+                                    name: '利润',
+                                    data: lirun
+                                }
+                                ]
+                            });
+
+                        }
+                        layui.use('layer', function () { //独立版的layer无需执行这一句
+                            var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                            layer.open({
+                                title: '成本利润图',
+                                type: 1,
+                                shade: false,
+                                area: ['620px', '460px'],
+                                shadeClose: true, //点击遮罩关闭
+                                content: $("#speedChart")
+                            });
+                        })
+
+                    },
+
+                })
+            });
+
+
+        </script>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        销量统计
+    </div>
+</div>
+<script>
+    //JavaScript代码区域
+
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
+<script>
+    $(function () {
+        $("#sendButton").click(function () {
+            var msg = $("#client_msg").val();
+            $("#mydiv").append("<div style='margin-top: 20px;margin-right: 10px;text-align: right'><span style='font-size: 15px;color: red;'>你说:" + msg + "</span><p/>");
+            $.ajax({
+                url: "/clientServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "text",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    YongHuMing: 'zhangsan',
+                    msgKey: msg,
+                    action: 2,
+                    yongHuMing: 'kefu'
+                },
+                success: function (response) {
+                    //alert("数据: " + response);
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+            $("#client_msg").val("");
+            var showContent = $(".show-chat-content");
+            showContent[0].scrollTop = showContent[0].scrollHeight;
+        });
+    });
+    var count = 0;
+
+    function getMsg() {
+        $.ajax({
+            url: "/serverServlet",    // 请求路径
+            type: "post",            // 请求的方式，不区分大小写
+            cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+                action: 1
+            },
+            success: function (response) {
+                //alert("数据: " + response);
+                if (response != null && response != "") {   // 如果后台服务没有数据，则不会添加
+                    $("#mydiv").append("<div style='margin-top: 20px'><span style='font-size: 15px;color: royalblue;'>" + response.yongHuMing + ":" + response.msgKey + "</span></div>");
+                    count++;
+                }
+            },
+            error: function (response) {
+                console.log("出错" + JSON.stringify(response));
+            }
+        });
+        $("#kefu").click(function () {
+            count = 0;
+        });
+        $("#lianxi").text(0 + count);
+    }
+
+    setInterval("getMsg()", 50);    // 轮询
+
+</script>
+</body>
+</html>

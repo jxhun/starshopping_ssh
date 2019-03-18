@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>订单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <script  src="../laydate/laydate.js"></script>
+    <link rel="stylesheet" type="text/css" href="/res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/res/layui/css/layui.css">
+    <script type="text/javascript" src="/res/layui/layui.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body class="col-sm-10 col-sm-offset-1">
+<script src="../layui/layui.js"></script>
+
+
+    <div>
+        <div class="site-nav-bg">
+            <div class="site-nav w1200">
+                <p class="sn-back-home">
+                    <i class="layui-icon layui-icon-home"></i>
+                    <a id="souye">首页</a>
+                </p>
+                <div class="sn-quick-menu">
+                    <div id="gerenzhongxin" class="login"><a id="dl" style="margin-left: 10px"  href="/html/denglu.html">登录</a></div>
+                    <div class="sp-cart"><a  id="gwc" href="/html/shopcart.html">购物车</a>
+                        <span style="color:#337ab7;margin-left: 10px" data-toggle="modal" data-target="#myModal">联系客服</span></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(function () {
+                function getURLParameter(name) {
+                    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+                }
+                var yonghuming=getURLParameter('yonghuming');
+                if(yonghuming!=null){
+                    $("#dl").html(yonghuming);
+                    var img="<img style='margin-left: 10px;width: 30px; height: 30px;' src='../img/user.png'/>";
+                    $("#dl").before(img)
+                    var gr="<a style='color:#f132a5;margin-left: 10px ' id='grzx'>个人中心</a>";
+                    $("#gerenzhongxin").append(gr)
+                    var ddgl="<a style='color:#f132a5;margin-left: 10px ' id='ddgl'>订单管理</a>";
+                    $("#grzx").before(ddgl)
+                    $("#ddgl").click(function () {
+                        window.location.href="/html/dingdanguanli.html?yonghuming="+yonghuming;
+                    });
+
+                    $("#grzx").click(function () {
+                        window.location.href="/html/gerenziliao.html?yonghuming="+yonghuming;
+
+                    });
+                    $("#souye").click(function () {
+
+                        window.location.href="/html/index.html?yonghuming="+yonghuming;
+
+                    });
+                }
+                $("#gwc").click(function () {
+                    if(yonghuming!=null){
+                        window.location.href="/html/shopcart.html?yonghuming="+yonghuming;
+                    }else{
+                        window.location.href="/html/denglu.html";
+
+                    }
+                });
+
+            })
+
+
+        </script>
+
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 700px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            聊天窗口
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="mydiv" class="show-chat-content"
+                             style="width: 600px;height: 350px;border: 1px solid rosybrown;margin: auto;overflow:auto"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <div style="width: 600px;margin: 10px auto"><textarea id="client_msg" style="width: 600px;height: 50px"
+                                                                              class="control"></textarea>
+                            <button id="sendButton">发送</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="demoTable" >
+        <div style="padding: 15px;"> 订单时间：
+            <input type="text" placeholder="请选择起始日期" id="qiShiRiQi" style="width:120px;display: inline-block"
+                   class="form-control">
+            —
+            <input type="text" placeholder="请选择终止日期" id="zhongZhiRiQi" style="width:120px;display: inline-block"
+                   class="form-control">
+            <input type="text" name="" id="guanJianCi" placeholder=" 请输入关键词"
+                   style="width:250px;display: inline-block"
+                   class="form-control">
+            <a id="gengduo">更多条件查询↓</a>
+            <div id="mydiv1" style="display: none">
+                <table>
+                    <tr>
+                        <td colspan='2'><span style="display: inline-block;margin-left: 30px">订单金额：</span><input
+                                type="text" name="" id="jiaGeXiaXian" placeholder=" 价格下限"
+                                style="width:250px;display: inline-block" class="form-control">
+                            —
+                            <input type="text"
+                                   name=""
+                                   id="jiaGeShangXian"
+                                   placeholder=" 价格上限"
+                                   style="width:250px;display: inline-block"
+                                   class="form-control">
+                        </td>
+                        <td><span style="display: inline-block;margin-left: 30px">订单号：</span><input type="text" name=""
+                                                                    id="dingDanHao"
+                                                                    placeholder=" 订单号"
+                                                                    style="width:250px;display: inline-block"
+                                                                    class="form-control">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div>
+            <button class="layui-btn" data-type="reload" id="search">搜索</button>
+            <button class="layui-btn" data-type="reload" id="delete">删除</button>
+        </div>
+
+
+    </div>
+    <div class="mt-20" >
+        <table id="mytable" class="layui-table" style="text-align: center">
+            <tr class="text-c">
+                <td width='10%' style="text-align: center"><input id="allChecked" type="checkbox"/></td>
+                <td width='10%' style="text-align: center">商品</td>
+                <td width='10%' style="text-align: center">订单编号</td>
+                <td width='10%' style="text-align: center">订单时间</td>
+                <td width='10%' style="text-align: center">商品名</td>
+                <td width='10%' style="text-align: center">商品规格</td>
+                <td width='10%' style="text-align: center">商品单价</td>
+                <td width='10%' style="text-align: center">商品数量</td>
+                <td width='10%' style="text-align: center">订单总价</td>
+                <td width='10%' style="text-align: center">订单详情</td>
+            </tr>
+        </table>
+        <div id="mydiv01">
+
+        </div>
+        <div id="fenye" style="display: inline-block"></div>
+
+    </div>
+
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script>
+    $(function () {
+        $("#sendButton").click(function () {
+            var msg = $("#client_msg").val();
+            $("#mydiv").append("<div style='margin-top: 20px;margin-right: 10px;text-align: right'><span style='font-size: 15px;color: red;'>你说:" + msg + "</span><p/>");
+            $.ajax({
+                url: "/serverServlet",    // 请求路径
+                type: "post",            // 请求的方式，不区分大小写
+                cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                datatype: "json",        // 返回类型，text文本、html页面、json数据
+                data: {
+                    YongHuMing: 'zhangsan',
+                    msgKey: msg,
+                    action: 2,
+                    yongHuMing:'zhangsan'
+                },
+                success: function (response) {
+                    //alert("数据: " + response);
+                },
+                error: function (response) {
+                    alert("出错" + response);
+                }
+            });
+            $("#client_msg").val("");
+            var showContent = $(".show-chat-content");
+            showContent[0].scrollTop = showContent[0].scrollHeight;
+        });
+    });
+
+    function getMsg() {
+        $.ajax({
+            url: "/clientServlet",    // 请求路径
+            type: "post",            // 请求的方式，不区分大小写
+            cache: false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+            datatype: "json",        // 返回类型，text文本、html页面、json数据
+            data: {
+                action: 1
+            },
+            success: function (response) {
+                //alert("数据: " + response);
+                if (response != null && response != "") {   // 如果后台服务没有数据，则不会添加
+                    $("#mydiv").append("<div style='margin-top: 20px;'><span style='font-size: 15px;color: royalblue;'>" + response.yongHuMing + ":" + response.msgKey + "</span></div>");
+                }
+            },
+            error: function (response) {
+                console.log("出错" + JSON.stringify(response));
+            }
+        });
+    }
+
+
+    setInterval("getMsg()", 50);    // 轮询
+</script>
+    <script>
+
+        laydate.render({
+            elem: '#qiShiRiQi'
+
+        });
+        laydate.render({
+            elem:'#zhongZhiRiQi'
+
+        });
+
+    </script>
+    <script>
+
+        layui.use('element', function () {
+            var element = layui.element;
+
+        });
+
+    </script>
+    <script>
+        $(function () {
+            var zongYeShu;
+            var shangYiYe ;
+            var xiaYiYe;
+            var action;
+            var dangQianYeMa =1;
+            var qiShiRiQi;
+            var zhongZhiRiQi;
+            var jiaGeXiaXian;
+            var jiaGeShangXian;
+            var guanJianCi;
+            var zongTiaoShu;
+            var dingDanHao;
+
+            function sousuo() {
+                $("#mydiv01").empty();
+                $.ajax({
+                    url:"/dingDanServilet",
+                    type:"post",
+                    cache:false,
+                    datatype:"json",
+                    data:{
+                        action:action,
+                        dangQianYeMa:dangQianYeMa,
+                        qiShiRiQi:qiShiRiQi,
+                        zhongZhiRiQi:zhongZhiRiQi,
+                        jiaGeXiaXian:jiaGeXiaXian,
+                        jiaGeShangXian:jiaGeShangXian,
+                        guanJianCi:guanJianCi,
+                        dingDanHao:dingDanHao
+
+                    },
+                    success:function(response){
+                        ff(response);
+                    },
+                    error:function(response){
+                        alert("出错" + response);
+                    }
+                });
+            };
+
+            function ff(response) {
+                function getURLParameter(name) {
+                    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+                }
+                var yonghuming=getURLParameter('yonghuming');
+                console.log(JSON.stringify(response));
+                if(response.returnCode==200) {
+                    zongTiaoShu=response.zongTiaoShu;
+                    dangQianYeMa =response.dangQianYeMa;
+                    zongYeShu=response.zongYeShu;
+                    shangYiYe = dangQianYeMa == 1?1:dangQianYeMa -1;
+                    xiaYiYe = dangQianYeMa == zongYeShu?zongYeShu:dangQianYeMa +1;
+                    fenye();
+                    for (var i = 0;i < response.data.length; i++){
+                        var table = "<table id='table"+i+"' class='table table-striped table-bordered table-hover'><tbody id='tbody"+i+"'></tbody></table>";
+                        $("#mydiv01").append(table);
+                        for(var j = 0; j < response.data[i].shangPinXinXi.length;j++) {
+                            if (response.data[i].shangPinXinXi[j].shangPinGuiGe1 != "" && response.data[i].shangPinXinXi[j].shangPinGuiGe2 != "") {
+                                if(j==0){
+                                    var tr = "<tr><td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' align='center' style='vertical-align:middle'>" +"<input type='checkbox' name='checkBox' value='"+response.data[i].dingDanBianHao+"'>" + "</td>" +
+                                        "<td width='10%' align='center' style='vertical-align:middle'>"+"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>"+"</td>"+
+                                        "<td width='10%'  rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'>" + response.data[i].dingDanBianHao + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinGuiGe1 +"<br/>"+
+                                        response.data[i].shangPinXinXi[j].shangPinGuiGe2 +"</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        "<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'> " + response.data[i].dingDanZongE + "</td>" +
+                                        "<td width='20%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'><a href='/html/dingdanxiangqing.html?yonghuming="+yonghuming+"&dingdanbianhao="+response.data[i].dingDanBianHao+"'>订单详情</a></td></tr>"  }
+                                else {
+                                    var tr = "<tr><td width='10%' align='center' style='vertical-align:middle'>"+"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>" + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinGuiGe1 + "<br/>" +
+                                        response.data[i].shangPinXinXi[j].shangPinGuiGe2 + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+
+                                        "</tr>";
+                                }
+                                $("#tbody" + i).append(tr);
+                            } else if (response.data[i].shangPinXinXi[j].shangPinGuiGe1 != "" && response.data[i].shangPinXinXi[j].shangPinGuiGe2 == "") {
+                                if(j==0){
+                                    var tr = "<tr><td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' align='center' style='vertical-align:middle'>" +"<input type='checkbox' name='checkBox' value='"+response.data[i].dingDanBianHao+"'>" + "</td>" +
+                                        "<td width='10%' align='center' style='vertical-align:middle'>"+"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>"+"</td>"+"<td width='10%'  rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'>" + response.data[i].dingDanBianHao + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinGuiGe1 + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        "<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'> " + response.data[i].dingDanZongE + "</td>" +
+                                        "<td width='20%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'><a href='/html/dingdanxiangqing.html?dingdanbianhao="+response.data[i].dingDanBianHao+"'>订单详情</a></td></tr>";
+                                }
+                                else{
+                                    var tr = "<tr><td width='10%' align='center' style='vertical-align:middle'>"+"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>"+ "</td>" +
+                                        // "<td width='194px' >" + "" + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinGuiGe1 + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        "</tr>";
+                                }
+                                $("#tbody" + i).append(tr);
+                            } else if (response.data[i].shangPinXinXi[j].shangPinGuiGe1 == "" && response.data[i].shangPinXinXi[j].shangPinGuiGe2 != "") {
+                                if (j==0){
+                                    var tr = "<tr><td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' align='center' style='vertical-align:middle'>" +"<input type='checkbox' name='checkBox' value='"+response.data[i].dingDanBianHao+"'>" + "</td>" +
+                                        "<td width='10%' align='center' style='vertical-align:middle'>"+"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>"+"</td>"+"<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'>" + response.data[i].dingDanBianHao + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinGuiGe2 + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        "<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length +"' style='text-align: center;vertical-align: middle'>" + response.data[i].dingDanZongE+ "</td>" +
+                                        "<td width='10%' rowspan='"+ response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'><a href='/html/dingdanxiangqing.html?dingdanbianhao="+response.data[i].dingDanBianHao+"'>订单详情</a></td></tr>";
+                                }
+                                else{
+                                    var tr = "<tr><td width='10%' align='center' style='vertical-align:middle'>" + "<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>"+"</td>" +
+                                        // "<td width='194px' >" + "" + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinGuiGe2 + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        "</tr>";
+                                }
+                                $("#tbody" + i).append(tr);
+                            } else if (response.data[i].shangPinXinXi[j].shangPinGuiGe1 == "" && response.data[i].shangPinXinXi[j].shangPinGuiGe2 == "") {
+                                if(j==0){
+                                    var tr = "<tr><td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' align='center' style='vertical-align:middle'>" +"<input type='checkbox' name='checkBox' value='"+response.data[i].dingDanBianHao+"'>" + "</td>" +
+                                        "<td width='10%' align='center' style='vertical-align:middle'>"+"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>"+"</td>"+"<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'>" + response.data[i].dingDanBianHao + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>全尺码</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        "<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'>" + response.data[i].dingDanZongE+ "</td>" +
+                                        "<td width='10%' rowspan='"+response.data[i].shangPinXinXi.length+"' style='text-align: center;vertical-align: middle'><a href='/html/dingdanxiangqing.html?dingdanbianhao="+response.data[i].dingDanBianHao+"'>订单详情</a></td></tr>";
+                                }
+                                else {
+                                    var tr = "<tr><td width='10%' height='10%' align='center' style='vertical-align:middle'>" + "<input type='checkbox' name='checkBox' value='"+response.data[i].dingDanBianHao+"'>" +"<img src='/" + response.data[i].shangPinZuBianHao + "/缩略图/0.jpg' width='80px' height='80px'/>" +"</td>" +
+                                        // "<td width='194px' >" + "" + "</td>" +
+                                        "<td width='10%'>" + response.data[i].dingDanShiJian + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinMingChen + "</td>" +
+                                        "<td width='10%'>全尺码</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinDanJia + "</td>" +
+                                        "<td width='10%'>" + response.data[i].shangPinXinXi[j].shangPinShuLiang + "</td>" +
+                                        // "<td width='242px'>" + "" + "</td>" +
+                                        // "<td width='242px'>"+""+"</td>" +
+                                        "</tr>";
+                                }
+
+                                $("#tbody" + i).append(tr);
+                            }
+                        }
+                    }
+                }
+            };
+
+            var actionA = true;
+            $("#gengduo").click(function () {
+                if (actionA) {
+                    $("#mydiv1").css("display", "block");
+                    $("#gengduo").text("点击隐藏↑");
+                    actionA = false;
+                } else {
+                    $("#mydiv1").css("display", "none");
+                    $("#gengduo").text("更多条件查询↓");
+                    actionA = true;
+                }
+            })
+            function getData() {
+                $.ajax({
+                    url:"/dingDanServilet",
+                    type:"post",
+                    cache:false,
+                    datatype:"json",
+                    data:{
+                        dangQianYeMa:1,
+                        action:1
+                    },
+                    success:function(response){
+                        ff(response);
+                    },
+                    error:function(response){
+                        alert("出错" + response);
+                    }
+                });
+            };
+            getData();
+
+            var isCheckAll = false;
+            function swapCheck() {
+                if (isCheckAll) {
+                    $("input[type='checkbox']").each(function() {
+                        this.checked = false;
+
+                    });
+                    isCheckAll = false;
+                } else {
+                    $("input[type='checkbox']").each(function() {
+                        this.checked = true;
+                    });
+                    isCheckAll = true;
+                }
+            };
+            $("#allChecked").click(swapCheck);
+
+            function fenye(){
+                layui.use('laypage', function () {
+                    var laypage = layui.laypage;
+                    laypage.render({
+                        elem: 'fenye'
+                        , count: zongTiaoShu
+                        ,curr:dangQianYeMa
+                        , jump: function (obj, first) {
+                            dangQianYeMa = obj.curr;
+                            if (!first) {
+                                action =3,
+                                sousuo();
+                            }
+                        }
+                    });
+                });
+            }
+
+            function shanChu(){
+                var shanChu = new Array();
+                $("input[name ='checkBox']:checked").each(function(i) {
+                    shanChu[i]=$(this).val();
+                });
+                // alert(shanChu);
+                $("#div02").empty();
+                $.ajax({
+                    url: "/dingDanServilet",
+                    type: "post",
+                    cache: false,
+                    // traditional:true,
+                    datatype: "json",
+                    data: {
+                        action:2,
+                        data:shanChu.toString()
+                    },
+                });
+            };
+            $("#delete").click(
+                function(){
+                    action=4,
+                    shanChu_RiZhi(),
+                    action =3,
+                    shanChu(),
+                    sousuo()
+                }
+            );
+            $("#search").click(
+                function () {
+                    qiShiRiQi=$("#qiShiRiQi").val(),
+                    zhongZhiRiQi=$("#zhongZhiRiQi").val(),
+                    jiaGeXiaXian=$("#jiaGeXiaXian").val(),
+                    jiaGeShangXian=$("#jiaGeShangXian").val(),
+                    guanJianCi=$("#guanJianCi").val(),
+                    dingDanHao=$("#dingDanHao").val(),
+                    action=5,
+                    souSuoRiZhi();
+                    action =3,
+                    dangQianYeMa=1,
+
+                    sousuo()
+                }
+
+            );
+            function shanChu_RiZhi() {
+                var shanChuRiZhi = new Array();
+                $("input[name ='checkBox']:checked").each(function(i) {
+                    shanChuRiZhi[i]=$(this).val();
+                });
+                $.ajax({
+                    url: "/dingDanServilet",
+                    type: "post",
+                    cache: false,
+                    datatype: "json",
+                    data: {
+                        action:action,
+                        data:shanChuRiZhi.toString()
+                    },
+                    success: function (response) {
+                    },
+                    error: function (response) {
+                    }
+                });
+            }
+            function souSuoRiZhi() {
+                $.ajax({
+                    url:"/dingDanServilet",
+                    type:"post",
+                    cache:false,
+                    datatype:"json",
+                    data:{
+                        action:action,
+                        dangQianYeMa:dangQianYeMa,
+                        qiShiRiQi:qiShiRiQi,
+                        zhongZhiRiQi:zhongZhiRiQi,
+                        jiaGeXiaXian:jiaGeXiaXian,
+                        jiaGeShangXian:jiaGeShangXian,
+                        guanJianCi:guanJianCi,
+                        dingDanHao:dingDanHao
+
+                    },
+
+                });
+            }
+
+        })
+
+    </script>
+
+
+
+</body>
+
+
+</html>

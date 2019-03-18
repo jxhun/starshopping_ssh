@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <link rel="dns-prefetch" href="//member-ssl.vipstatic.com">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit"/>
+    <title>StartShopping网站登录</title>
+    <link href="//member-ssl.vipstatic.com/css/public/passport/1/common-hash-153439cd.css" type="text/css" rel="stylesheet" />
+    <link href="//member-ssl.vipstatic.com/css/public/passport/1/single-function-hash-c1b4372c.css" type="text/css" rel="stylesheet" />
+    <link href="//member-ssl.vipstatic.com/css/public/passport/1/common-hash-153439cd.css" type="text/css" rel="stylesheet">
+    <link href="//member-ssl.vipstatic.com/css/public/passport/1/login-hash-9f38e6b2.css" type="text/css" rel="stylesheet">
+    <script src="//member-ssl.vipstatic.com/js/public/jquery-1.10.2-hash-bdce12c9.js" type="text/javascript"></script>
+    <script src="//member-ssl.vipstatic.com/js/public/core3.1.0-hash-08fedcce.js" type="text/javascript"></script>
+    <style>
+        #StartShopping-login{color: #ff006e;width:315px;height:73px;
+            font-size: 40px;position: absolute;top: 40px;}
+        #shoujihaomaspan{position: absolute;left: 30px;}
+        #yanzhengmaspan{position: absolute;left: 30px;}
+        #zhanwei{height: 4px;padding: 0px;margin: 0px;}
+    </style>
+</head>
+<body class="J-container">
+<div class="c-header"
+     passport_mars_sead_hover>
+    <div class="c-header-inner">
+        <div class="c-logo">
+            <a id="StartShopping-login" href="#">StartShopping</a>
+        </div>
+
+        <div class="c-service"></div>
+    </div>
+</div>
+
+<div class="c-body  J-ads"
+     data-adsid="ADSJ867S"
+     data-bg="true">
+    <div class="c-content  f-clearfix">
+        <div class="c-login-panel  f-right">
+            <div class="c-login-panel-body">
+                <div class="c-tab  c-login-tab     J-tab">
+                    <div class="c-tab-nav">
+                        <div class="c-tab-nav-item  c-tab-nav-item-qr  J-tab-nav-item  is-tab-nav-item-active"
+                             data-current-item="qr">手机验证</div>
+                        <div class="c-tab-nav-item  J-tab-nav-item  "
+                             data-current-item="form">账号密码</div>
+                    </div>
+                    <div class="c-tab-content">
+                        <!--手机验证-->
+                        <div class="c-tab-panel  J-tab-panel">
+                        <div class="c-qr  J-qr">
+                            <div id="zhanwei"></div>
+                                    <div class="control-group  has-form-item-icon  clearfix">
+                                        <div class="ui-form-item-group">
+                                            <input type="text"
+                                                   class="ui-input ipt-phone" id="J_mobile_name"
+                                                   name="loginName"
+                                                   placeholder="请输入手机号码"
+                                                   passport_mars_sead_hover passport_mars_sead_input='mobileRegMobile'/>
+                                            <span class="c-icon  c-icon-mobile  c-icon-form"></span>
+                                        </div>
+                                        <div class="u-input-tip"><span class="text" id="shoujihaomaspan"></span></div>
+                                    </div>
+
+                                    <div class="control-group" id="J_verify_code_mobile"></div>
+
+                                    <div class="control-group  has-form-item-icon  clearfix">
+                                        <div class="ui-form-item-group adjust-tip-icon">
+                                            <input type="text"
+                                                   id="J_mobile_code" class="ui-input ipt-verify-code"
+                                                   name="pvcode"
+                                                   placeholder="请输入验证码"
+                                                   passport_mars_sead_hover passport_mars_sead_input='mobileRegMobileCode'/><!--
+             --><a
+                                                role="button"
+                                                id="J_mobile_verifycode_btn" class="ui-btn-medium  btn-verify-code ui-btn-disable"
+                                                passport_mars_sead_hover
+                                                tabIndex="-1">获取验证码</a>
+                                            <span class="c-icon  c-icon-captcha  c-icon-form"></span>
+                                        </div>
+                                        <div class="u-input-tip"><span id="yanzhengmaspan" class="text"></span></div>
+                                    </div>
+                            <div class="c-form-item c-captcha-container J_item_group J-captcha-code-container z-u-form-item-warning f-hidden">
+                                <div  class="ui-form-item-group"></div>
+                                <div class="u-input-tip J_form_tip J-captcha-tip"><span  class="text"></span></div>
+                            </div>
+
+                            <div class="c-form-item">
+                                <div class="ui-form-item-group">
+                                    <div class="u-other-item">
+                                        <div class="u-cannot-login J-password-login-forget f-right">
+                                            <a href=""
+                                               class="i-forget-link"
+                                               target="_blank" rel="noopener"
+                                               seed-id="btnForgot"></a>
+                                        </div>
+                                        <div class="f-left">
+                                            <div class="ui-checkbox">
+                                                <input type="checkbox"  name="remUser" class="ui-checkbox-normal" checked>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="u-input-tip J_form_tip"><span class="text"></span></div>
+                            </div>
+
+                            <div class="c-form-item  f-hidden  J_item_group  J_vpal_checkbox_model">
+                                <div class="ui-form-item-group  m_vpal_checkbox">
+                                    <div class="ui-checkbox mr0 i-vpal-checkbox">
+                                        <input type="checkbox" id="" name="agree" class="ui-checkbox-normal" value="1">
+                                        <label for="J_vpal_agree" class="ui-checkbox-simulation"></label>
+                                    </div>
+                                </div>
+                                <div class="u-input-tip J_form_tip"><span class="text"></span></div>
+                            </div>
+                            <div class="c-form-item-submit">
+                                <div class="u-form-submit">
+                                    <button type="submit"
+                                            class="ui-btn-large ui-btn-primary ui-btn-loading u-submit-function"
+                                            id="shoujiyanzhengdenglu"
+                                            passport_mars_sead_hover
+                                            seed-id="btnLogin">
+                                        <span class="ui-btn-loading-before">登录</span>
+                                        <span class="ui-btn-loading-after"><i class="ii-loading-gray-16x16"></i><span class="ui-btn-txt">处理中...</span></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!--账号密码-->
+                        <div class="c-tab-panel  J-tab-panel  f-hide">
+                            <div class="c-login-form">
+                                <div class="m-passport-from" id="J_login_form">
+                                    <div class="ui-form-item-group  c-form-error  J_item_group">
+                                        <div id="J_form_error"></div>
+                                        <div class="u-input-tip J_form_tip"><span class="text"></span></div>
+                                    </div>
+                                    <div class="c-form-item  has-form-item-icon  J_item_group">
+                                        <div class="ui-form-item-group">
+                                            <input id="J_login_name"
+                                                   class="ui-input  u-input"
+                                                   type="text"
+                                                   name="loginName"
+                                                   placeholder="手机号/用户名/邮箱"
+                                                   passport_mars_sead_hover
+                                                   passport_mars_sead_input='loginName'>
+                                            <span class="c-icon  c-icon-account  c-icon-form"></span>
+                                        </div>
+                                        <div class="u-input-tip J_form_tip"><span id="denglumingspan"></span></div>
+                                    </div>
+
+                                    <div class="c-form-item  has-form-item-icon  J_item_group">
+                                        <div class="ui-form-item-group">
+                                            <input id="J_login_pwd"
+                                                   class="ui-input  u-input"
+                                                   type="password"
+                                                   name="password"
+                                                   maxlength="20"
+                                                   placeholder="密码"
+                                                   passport_mars_sead_hover
+                                                   passport_mars_sead_input='password'>
+                                            <div class="ui-tooltips ui-tooltips-info ui-tooltips-bottom-left-arrow u-capslock-tip" id="J_capslock_tip">
+                                            </div>
+                                            <span class="c-icon  c-icon-password  c-icon-form"></span>
+                                        </div>
+                                        <div class="u-input-tip J_form_tip"><span id="mimaspan" class="text"></span></div>
+                                    </div>
+
+                                    <div class="c-form-item c-captcha-container J_item_group J-captcha-code-container z-u-form-item-warning f-hidden">
+                                        <div id="J-captcha-code" class="ui-form-item-group"></div>
+                                        <div class="u-input-tip J_form_tip J-captcha-tip"><span  class="text"></span></div>
+                                    </div>
+
+                                    <div class="c-form-item">
+                                        <div class="ui-form-item-group">
+                                            <div class="u-other-item">
+                                                <div class="u-cannot-login J-password-login-forget f-right">
+                                                    <a href="/html/wangjimima.html"
+                                                       class="i-forget-link"
+                                                       target="_blank" rel="noopener"
+                                                       seed-id="btnForgot">忘记密码</a>
+                                                </div>
+                                                <div class="f-left">
+                                                    <div class="ui-checkbox">
+                                                        <input type="checkbox" id="J_remember_username" name="remUser" class="ui-checkbox-normal" checked>
+                                                        <label for="J_remember_username" class="ui-checkbox-simulation"></label>
+                                                    </div>
+                                                    <label for="J_remember_username" class="u-checkbox-label">记住用户名</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="u-input-tip J_form_tip"><span class="text"></span></div>
+                                    </div>
+
+                                    <div class="c-form-item  f-hidden  J_item_group  J_vpal_checkbox_model">
+                                        <div class="ui-form-item-group  m_vpal_checkbox">
+                                            <div class="ui-checkbox mr0 i-vpal-checkbox">
+                                                <input type="checkbox" id="J_vpal_agree" name="agree" class="ui-checkbox-normal" value="1">
+                                                <label for="J_vpal_agree" class="ui-checkbox-simulation"></label>
+                                            </div>
+                                        </div>
+                                        <div class="u-input-tip J_form_tip"><span class="text"></span></div>
+                                    </div>
+
+                                    <div class="c-form-item-submit">
+                                        <div class="u-form-submit">
+                                            <button type="submit"
+                                                    class="ui-btn-large ui-btn-primary ui-btn-loading u-submit-function"
+                                                    id="zhanghaomimadenglu"
+                                                    passport_mars_sead_hover
+                                                    seed-id="btnLogin">
+                                                <span class="ui-btn-loading-before">登录</span>
+                                                <span class="ui-btn-loading-after"><i class="ii-loading-gray-16x16"></i><span class="ui-btn-txt">处理中...</span></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="c-login-panel-footer">
+                <div class="c-login-third  f-clearfix  J-login-third">
+                    <div class="c-login-third-special">
+                        <div class="c-login-third-wechat-wrapper  ">
+                            <a class="c-login-third-wechat"
+                               target="_blank" rel="noopener"
+                               mars_sead="passport_bottom_weixin_button"
+                            >
+                                <span class="c-login-third-wechat-icon"></span>
+                                <span class="c-login-third-wechat-text">微信</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="f-right">
+                        <a class="c-register-link J-password-login-register"
+                           target="_blank" rel="noopener"
+                           href="/html/zhuce.html">免费注册</a>
+                    </div>
+
+                    <div class="c-login-third-content" passport_mars_sead_hover>
+                        <div class="c-login-third-main">
+                            <ul class="c-login-third-main-list">
+                                <li class="c-login-third-main-item  ">
+                                    <a class="c-login-third-link"
+                                       target="_blank" rel="noopener"
+                                       mars_sead="passport_bottom_weibo_button"
+                                    >新浪微博</a>
+                                </li>
+                                <li class="c-login-third-main-item  ">
+                                    <a class="c-login-third-link"
+                                       target="_blank" rel="noopener"
+                                       mars_sead="passport_bottom_qq_button"
+                                    >QQ</a>
+                                </li>
+                                <li class="c-login-third-main-item  ">
+                                    <a class="c-login-third-link"
+                                       target="_blank" rel="noopener"
+                                       mars_sead="passport_bottom_alipay_button"
+                                    >支付宝</a>
+                                </li>
+                            </ul><!--
+         --><a href="###" role="button"
+               class="c-login-third-more-button  J-button-login-more  J_fake_a"
+               mars_sead="passport_bottom_more_button">
+                            <span class="c-login-third-more-expand">更多<span class="vipFont  i-arrow-down">&#xe616;</span></span>
+                            <span class="c-login-third-more-collapse">收起<span class="vipFont  i-arrow-up">&#xe615;</span></span>
+                        </a>
+                        </div>
+
+                        <div class="c-login-third-more">
+                            <ul class="c-login-third-other-list">
+                                <li class="c-login-third-other-item  ">
+                                    <a target="_blank" rel="noopener"
+                                       class="c-login-third-link"
+                                       mars_sead="passport_bottom_netease_button"
+                                    >网  易</a>
+                                </li>
+                                <li class="c-login-third-other-item  ">
+                                    <a target="_blank" rel="noopener"
+                                       class="c-login-third-link"
+                                       mars_sead="passport_bottom_renren_button"
+                                    > 人人网 </a>
+                                </li>
+                                <li class="c-login-third-other-item  ">
+                                    <a target="_blank" rel="noopener"
+                                       class="c-login-third-link"
+                                       mars_sead="passport_bottom_ccb_button"
+                                    >建行登录</a>
+                                </li>
+                                <li class="c-login-third-other-item  ">
+                                    <a target="_blank" rel="noopener"
+                                       class="c-login-third-link"
+                                       mars_sead="passport_bottom_happy_button"
+                                    >开心网</a>
+                                </li>
+                                <li class="c-login-third-other-item  ">
+                                    <a target="_blank" rel="noopener"
+                                       class="c-login-third-link"
+                                       mars_sead="passport_bottom_139_button"
+                                    >中国移动</a>
+                                </li>
+                                <li class="c-login-third-other-item  ">
+                                    <a target="_blank" rel="noopener"
+                                       class="c-login-third-link"
+                                       mars_sead="bottom_yizhifu_button"
+                                    >翼支付</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="c-footer">
+    <p class="c-copyright">Copyright 2008-2018 StartShopping.com，All Rights Reserved ICP证：川 B2-20080329</p>
+</div>
+<script>
+    $(function () {
+        $.Loader.advScript({
+            name: 'phone',
+            url: '//member-ssl.vipstatic.com/js/public/safe/1/bind-phone-component-hash-180b022e.js'
+        }, {
+            name: 'login',
+            url: '//member-ssl.vipstatic.com/js/public/passport/1/login-hash-b5c80685.js',
+            requires: ['phone']
+        }, {
+            name: 'mars',
+            url: '//3rd.vipstatic.com/mars/mars.js'
+        }, {
+            name: 'captcha',
+            url: '//captcha.vip.com/getbootstrap'
+        }, {
+            name: 'captchaInit',
+            def: function () {
+                if (window.VipSecureCode) {
+                    var initOpt = {
+                        parseJSON: $.parseJSON,
+                        stringifyJSON: $.stringifyJSON
+                    };
+                    /*global VipSecureCode*/
+                    VipSecureCode.init(initOpt);
+                }
+            },
+            requires: ['captcha']
+        });
+    });
+</script>
+<script type="text/javascript">
+    $.Var.set('isShowQr', true);
+    $.Var.set('isShowQrFirst', true);
+    $.Var.set('qrScanTime', 2000);
+
+    window.VTM = {
+        sessionUser: {
+            id: $.Cookie.get('VipRUID'),
+            name: $.Cookie.get('VipRNAME')
+        },
+        pageId: 101
+    };
+
+    (function () {
+        var _script = document.createElement("script");
+        _script.src = "https://ms.vipstatic.com/vtm/vtm_config_res/prod/vtm.js" +
+            (window.location.href.indexOf("preview=1") != -1 ? "?preview=1" : "");
+        document.body.appendChild(_script);
+    })();
+</script>
+</body>
+<!--#f64a4a-->
+<script src="../js/jquery.cookie.js"></script>
+<script>
+    //获取当前时间 start-------------------------------------------------------------------
+       var dangqianshijian = null;
+       setInterval(function () {
+           dangqianshijian = new Date().getTime();
+       },1);
+    //获取当前时间 end---------------------------------------------------------------------
+    //验证码倒计时 start-------------------------------------------------------------------
+    var countdown=60;
+    function sendemail(){
+        var obj =  $("#J_mobile_verifycode_btn");
+        settime(obj);
+    }
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.prop({class:"ui-btn-medium  btn-verify-code ui-btn-secondary"});
+            //obj.removeattr("disabled");
+            obj.text("获取验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.prop({class:"ui-btn-medium  btn-verify-code ui-btn-disable"});
+            obj.text("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj)
+            }
+            ,1000)
+    }
+    //验证码倒计时 end---------------------------------------------------------------------
+    $(function () {
+        //手机验证 start*****************************************************
+        var shoujihaomatext = $("#J_mobile_name");//手机号码输入框
+        var shoujihaomaspan =  $("#shoujihaomaspan");//手机号码输入框下方span
+        var huoquyanzhengma = $("#J_mobile_verifycode_btn");//获取验证码按钮
+        var yanzhengmatext = $("#J_mobile_code");//验证码输入框
+        var yanzhengmaspan = $("#yanzhengmaspan");//验证码输入框下方span
+        // 手机号码输入框 start------------------------------------------------------------
+        function checkPhoneIsExist() {
+            var shoujihaoma = shoujihaomatext.val();
+            var count = null;
+            var json = {option:"1",
+                shoujihaoma:""+shoujihaoma+"",
+                dengluming:""+shoujihaoma+"",//zhanwei
+                mima:"zhanwei"};
+            $.ajax({
+                url:"/DengLuServlet",   // 请求路径
+                type:"post",            // 请求的方式，不区分大小写
+                async:false,             // 是否异步，true是默认值，false为同步请求
+                cache:false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType:"application/json;charset=utf-8",
+                datatype:"json",        // 返回类型，text文本、html页面、json数据
+                data:JSON.stringify(json),
+                success:function(response){//回调函数
+                    count =  response.panduancount;
+                },
+                error:function(response){//回调函数
+                }
+            });
+            return count;
+        }//利用ajax异步判断手机号码是否已经注册
+        shoujihaomatext.focus(function(){
+            shoujihaomaspan.html("<font>请输入您的手机号码</font>");
+        });//手机号码输入框获得焦点时
+        shoujihaomatext.blur(function(){
+            //正则 判断手机号码是否有效
+            var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+            var shoujihaoma = shoujihaomatext.val();
+            var action = false;
+            var message = "";
+            if(shoujihaoma == '' || shoujihaoma == null){
+                message = "手机号码不能为空！";
+            }else if(shoujihaoma.length !=11 || !myreg.test(shoujihaoma)){
+                message = "请输入有效的手机号码！";
+            }else if(checkPhoneIsExist() == 0){
+                message = "此手机号码未注册";
+            }else {
+                message = "有效的手机号码";
+                action = true;
+            }
+
+            if(!action){
+                shoujihaomaspan.html("<font color='#f64a4a'>"+message+"</font>");
+                shoujihaomatext.css({"border-color":"#f64a4a"});
+                huoquyanzhengma.prop({class:"ui-btn-medium  btn-verify-code ui-btn-disable"});
+            }else {
+                shoujihaomaspan.html("<font>"+message+"</font>");
+                shoujihaomatext.css({"border-color":"#ccc"});
+                huoquyanzhengma.prop({class:"ui-btn-medium  btn-verify-code ui-btn-secondary"});
+            }
+        });//手机号码输入框失去焦点时
+        // 手机号码输入框 end---------------------------------------------------------------
+        //ui-btn-secondary 按钮可用   ui-btn-disable 按钮禁用
+        //获取验证码按钮 start--------------------------------------------------------------
+        var shoujiyanzhengmahuidiao = null;
+        function huoquyanzhengmaff(){
+            var shoujihaoma = shoujihaomatext.val();
+            var json = {option:"2",
+                shoujihaoma:""+shoujihaoma+"",
+                dengluming:""+shoujihaoma+"",//zhanwei
+                mima:"zhanwei"};
+            $.ajax({
+                url:"/DengLuServlet",   // 请求路径
+                type:"post",            // 请求的方式，不区分大小写
+                async:false,             // 是否异步，true是默认值，false为同步请求
+                cache:false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                contentType:"application/json;charset=utf-8",
+                datatype:"json",        // 返回类型，text文本、html页面、json数据
+                data:JSON.stringify(json),
+                success:function(response){//回调函数
+                    shoujiyanzhengmahuidiao = response.shoujiyanzhengmahuidiao;//将验证码赋值，用于判断用户是否输入正确
+                },
+                error:function(response){//回调函数
+                    alert("错误回调");
+                }
+            });
+        };//获取验证码
+        huoquyanzhengma.click(function () {
+            if (huoquyanzhengma.text() == "获取验证码" &&
+                huoquyanzhengma.css("color") == "rgb(224, 0, 120)"){
+                sendemail();
+                huoquyanzhengmaff();
+                yanzhengmaspan.html("<font color='#ff006e'>若未收到验证码，请稍后重试</font>");
+            }
+        });//获取验证码按钮点击时
+        yanzhengmatext.blur(function () {
+            var yanzhengma = yanzhengmatext.val();
+            if(yanzhengma == ""){
+                yanzhengmaspan.html("<font color='#f64a4a'>请输入6位数字手机验证码</font>");
+                yanzhengmatext.css({"border-color":"#f64a4a"});
+            }else if(yanzhengma != shoujiyanzhengmahuidiao){
+                yanzhengmaspan.html("<font color='#f64a4a'>验证码错误</font>");
+                yanzhengmatext.css({"border-color":"#f64a4a"});
+            }else {
+                yanzhengmaspan.html("<font>验证码正确</font>");
+                yanzhengmatext.css({"border-color":"#ccc"});
+            }
+        });//验证码输入框失去焦点时
+        //获取验证码按钮 end----------------------------------------------------------------
+        // 手机验证 登录按钮 start-------------------------------------------------------------------
+        var shoujiyanzhengdenglu = $("#shoujiyanzhengdenglu");//手机验证 登录按钮
+        shoujiyanzhengdenglu.click(function () {
+            if(shoujihaomaspan.text() == "有效的手机号码" &&
+               yanzhengmaspan.text() == "验证码正确"){//登录
+                var json = {option:"3",
+                    shoujihaoma:""+shoujihaomatext.val()+"",
+                    dengluming:""+shoujihaomatext.val()+"",
+                    mima:"zhanwei"};
+                var action = false;//false为不存在
+                $.ajax({
+                    url:"/DengLuServlet",   // 请求路径
+                    type:"post",            // 请求的方式，不区分大小写
+                    async:true,             // 是否异步，true是默认值，false为同步请求
+                    cache:false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                    contentType:"application/json;charset=utf-8",
+                    datatype:"json",        // 返回类型，text文本、html页面、json数据
+                    data:JSON.stringify(json),
+                    success:function(response){//回调函数
+                        window.location.href = response.url;
+                    },
+                    error:function(response){//回调函数
+                    }
+                });
+
+            }else if(shoujihaomaspan.text() != "有效的手机号码"){
+                shoujihaomatext.css({"border-color":"#f64a4a"});
+                shoujihaomaspan.html("<font color='#f64a4a'>请输入您的手机号码</font>");
+            }else if(yanzhengmaspan.text() != "验证码正确"){
+                yanzhengmatext.css({"border-color":"#f64a4a"});
+                yanzhengmaspan.html("<font color='#f64a4a'>请输入正确的验证码</font>");
+            }
+        });//登录按钮点击事件
+        // 手机验证 登录按钮 end---------------------------------------------------------------------
+        //手机验证 end*****************************************************
+
+        //账号密码 start***************************************************
+        var denglumingtext = $("#J_login_name");//登录名输入框
+        var denglumingspan = $("#denglumingspan");//登录名下方span
+        var mimatext = $("#J_login_pwd");//密码输入框
+        var mimaspan = $("#mimaspan");//密码下方span
+        //登录名输入框 start-----------------------------------------------------------------
+        // denglumingtext.val($.cookie("dengluming"));//登录一次之后自动添加登录名
+        function checkDengLuMingIsExist(){
+            var dengluming = denglumingtext.val();//登录名
+           var json = {option:"4",
+               dengluming:""+dengluming+"",
+               shoujihaoma:""+dengluming+"",//zhanwei
+               mima:"zhanwei",};
+           var count = null;
+           $.ajax({
+               url:"/DengLuServlet",   // 请求路径
+               type:"post",            // 请求的方式，不区分大小写
+               async:false,             // 是否异步，true是默认值，false为同步请求
+               cache:false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+               contentType:"application/json;charset=utf-8",
+               datatype:"json",        // 返回类型，text文本、html页面、json数据
+               data:JSON.stringify(json),
+               success:function(response){//回调函数
+                   count = response.panduancount;
+               },
+               error:function(response){//回调函数
+               }
+           });
+           return count;
+        }//查询登录名是否注册
+       denglumingtext.blur(function () {
+           var dengluming = denglumingtext.val();//登录名
+          var message = "";
+          var action = false;
+          if(dengluming != ""){
+              if(checkDengLuMingIsExist() == 0){
+                  message = "该登录名未注册";
+              }else {
+                  message = "有效的登录名";
+                  action = true;
+              }
+          }else {
+              message = "登录名不能为空!";
+          }
+
+           if(!action){
+               denglumingspan.html("<font color='#f64a4a'>"+message+"</font>");
+               denglumingtext.css({"border-color":"#f64a4a"});
+           }else {
+               denglumingspan.html("<font color='#666'>"+message+"</font>");
+               denglumingtext.css({"border-color":"#ccc"});
+           }
+
+        });//当登录名输入框失去焦点时
+        //登录名输入框 end-------------------------------------------------------------------
+        // 账号密码 登录按钮 start-------------------------------------------------------------------
+        var zhanghaomimadenglu = $("#zhanghaomimadenglu");//账号密码 登录按钮
+        zhanghaomimadenglu.click(function () {
+            if(denglumingspan.text() == "有效的登录名" &&
+                mimatext.val() != ""){//登录
+                var json = {option:"5",
+                    dengluming:""+denglumingtext.val()+"",
+                    mima:""+mimatext.val()+"",
+                    dangqianshijian:""+dangqianshijian+"",
+                shoujihaoma:""+denglumingtext.val()+""};
+                var action = false;//false为不存在
+                $.ajax({
+                    url:"/DengLuServlet",   // 请求路径
+                    type:"post",            // 请求的方式，不区分大小写
+                    async:true,             // 是否异步，true是默认值，false为同步请求
+                    cache:false,            // 关闭缓存，目的是为了避免部分浏览器缓存加载出错(IE)
+                    contentType:"application/json;charset=utf-8",
+                    datatype:"json",        // 返回类型，text文本、html页面、json数据
+                    data:JSON.stringify(json),
+                    success:function(response){//回调函数
+                        var cuowucishu = response.cuowucishu;
+                        var message = "";
+                        if (response.zhuangtai == "1") {//状态为可登陆
+                            if (response.zhanghaomima == "duiyin") {//账号密码对应，让其登录
+                                window.location.href = response.url;
+                            } else {//账号密码不对应，提示剩余机会次数，以及是否锁定账号和锁定时间
+                                if ( 1<= cuowucishu && cuowucishu <= 2) {
+                                    message = "密码错误,您还剩下" + (3 - cuowucishu) + "次机会";
+                                }else if(cuowucishu === 3){
+                                    message = "抱歉,您的账号被冻结5分钟(可使用手机验证登录)";
+                                }else if ( 4<= cuowucishu && cuowucishu <= 5) {
+                                    message = "密码错误,您还剩下" + (6 - cuowucishu) + "次机会";
+                                }else if(cuowucishu == 6){
+                                    message = "抱歉,您的账号被冻结30分钟(可使用手机验证登录)";
+                                }else if ( 7<= cuowucishu && cuowucishu <= 8) {
+                                    message = "密码错误,您还剩下" + (9 - cuowucishu) + "次机会";
+                                }else if(cuowucishu == 9){
+                                    message = "抱歉,您的账号被冻结24小时(可使用手机验证登录)";
+                                }else if(cuowucishu == 10){
+                                    message = "抱歉,您的账号被永久冻结(可使用手机验证登录)";
+                                }
+                                mimatext.css({"border-color": "#f64a4a"});
+                                mimaspan.html("<font color='#f64a4a'>" + message + "</font>");
+                            }
+                        }else if(response.zhuangtai == "0"){//状态为不可登陆
+                            denglumingspan.html("<font color='#f64a4a'>抱歉，您的账号被暂时冻结!</font>");
+                            denglumingtext.css({"border-color": "#f64a4a"});
+                        }
+                    },
+                    error:function(response){//回调函数
+                    }
+                });
+            }else if(denglumingspan.text() != "有效的登录名"){
+                denglumingtext.css({"border-color":"#f64a4a"});
+                denglumingspan.html("<font color='#f64a4a'>请输入有效的登录名</font>");
+            }else if( mimatext.val() == ""){
+                mimatext.css({"border-color":"#f64a4a"});
+                mimaspan.html("<font color='#f64a4a'>密码不能为空!</font>");
+            }
+        });//登录按钮点击事件
+        // 账号密码 登录按钮 end---------------------------------------------------------------------
+        //账号密码 end*****************************************************
+    });
+</script>
+</html>
