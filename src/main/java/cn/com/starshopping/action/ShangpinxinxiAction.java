@@ -379,7 +379,7 @@ public class ShangpinxinxiAction {
     }
 
     public Map<String, String> getData() {
-        System.out.println("--------getData");
+        System.out.println("----------getData");
         System.out.println("map = " + map);
         return map;
     }
